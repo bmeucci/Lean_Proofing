@@ -25,7 +25,7 @@ import LeanProofing.FiniteGroups
 /-- **Theorem 11.5**: RHC → DH via continuous deformation.
     Both share the combinatorial type: 60 quadrilateral faces,
     identical edge connectivity. -/
-theorem RHC_to_DH_deformation : DeformationData where
+def RHC_to_DH_deformation : DeformationData where
   source := rhombicHexecontahedron
   target := deltoidalHexecontahedron
   same_vertices := by simp [rhombicHexecontahedron, deltoidalHexecontahedron]
@@ -113,7 +113,7 @@ theorem poole_morse_check (P : PooleInvariantCriticalStructure) :
 
 /-- **Theorem 11.12**: The icosidodecahedron is extracted from the DH
     as the largest symmetric subset at harmonic equilibrium positions. -/
-theorem DH_to_ID_extraction : ExtractionData where
+def DH_to_ID_extraction : ExtractionData where
   source := deltoidalHexecontahedron
   target := icosidodecahedron
   fewer_vertices := by simp [deltoidalHexecontahedron, icosidodecahedron]
@@ -163,7 +163,7 @@ theorem five_tetrahedral_subgroups :
 
 /-- **Theorem 11.18**: The tetrahedron is extracted from the icosidodecahedron
     as the minimal convex kernel via symmetry reduction. -/
-theorem ID_to_tetrahedron_extraction : ExtractionData where
+def ID_to_tetrahedron_extraction : ExtractionData where
   source := icosidodecahedron
   target := tetrahedron
   fewer_vertices := by simp [icosidodecahedron, tetrahedron]
@@ -181,35 +181,18 @@ theorem extraction_reduction_factor :
 
 /-! ## The Complete Phase IV Chain -/
 
-/-- Phase IV: The Forward Return.
-    RHC →(deform)→ DH →(extract)→ ID →(extract)→ T
-
-    Every step is forward: deformation, then two extractions.
-    No operation is reversed. -/
-structure PhaseIV where
-  step7_deform : DeformationData
-  step8_extract : ExtractionData
-  step9_extract : ExtractionData
-  /-- Starts at the RHC -/
-  starts_at_RHC : step7_deform.source = rhombicHexecontahedron
-  /-- Steps chain together -/
-  chain_78 : step8_extract.source = step7_deform.target
-  chain_89 : step9_extract.source = step8_extract.target
-  /-- Ends at the tetrahedron -/
-  ends_at_tetra : step9_extract.target = tetrahedron
-
-/-- The concrete Phase IV chain. -/
-def phaseIV : PhaseIV where
-  step7_deform := RHC_to_DH_deformation
-  step8_extract := DH_to_ID_extraction
-  step9_extract := ID_to_tetrahedron_extraction
-  starts_at_RHC := rfl
-  chain_78 := rfl
-  chain_89 := rfl
-  ends_at_tetra := rfl
-
 /-- Phase IV starts at the rhombic hexecontahedron. -/
-theorem phaseIV_start : phaseIV.step7_deform.source = rhombicHexecontahedron := rfl
+theorem phaseIV_start : RHC_to_DH_deformation.source = rhombicHexecontahedron := by
+  simp [RHC_to_DH_deformation, rhombicHexecontahedron]
+
+/-- Phase IV chain: deformation target feeds into extraction source. -/
+theorem phaseIV_chain_78 : DH_to_ID_extraction.source = RHC_to_DH_deformation.target := by
+  simp [DH_to_ID_extraction, RHC_to_DH_deformation, deltoidalHexecontahedron]
+
+/-- Phase IV chain: first extraction target feeds into second extraction source. -/
+theorem phaseIV_chain_89 : ID_to_tetrahedron_extraction.source = DH_to_ID_extraction.target := by
+  simp [ID_to_tetrahedron_extraction, DH_to_ID_extraction, icosidodecahedron]
 
 /-- Phase IV ends at the tetrahedron. -/
-theorem phaseIV_end : phaseIV.step9_extract.target = tetrahedron := rfl
+theorem phaseIV_end : ID_to_tetrahedron_extraction.target = tetrahedron := by
+  simp [ID_to_tetrahedron_extraction, tetrahedron]

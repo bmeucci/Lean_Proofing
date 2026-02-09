@@ -12,7 +12,7 @@
 -/
 
 import Mathlib.GroupTheory.GroupAction.Basic
-import Mathlib.GroupTheory.Subgroup.Basic
+import Mathlib.Algebra.Group.Subgroup.Basic
 import Mathlib.GroupTheory.Index
 import Mathlib.GroupTheory.Coset.Basic
 import Mathlib.Data.Fintype.Card

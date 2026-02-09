@@ -23,7 +23,7 @@ import LeanProofing.Polyhedra
     edge midpoints. Each of the 4 original vertices is truncated to reveal a
     triangular face, while each of the 4 original triangular faces becomes a
     smaller triangle. Result: 6 vertices, 12 edges, 8 faces = octahedron. -/
-theorem rect_tetrahedron_is_octahedron : RectificationData where
+def rect_tetrahedron_is_octahedron : RectificationData where
   source := tetrahedron
   target := octahedron
   vertex_from_edges := by simp [tetrahedron, octahedron]
@@ -41,7 +41,7 @@ theorem rect_tetra_faces :
     (one per octahedral face) and 6 faces (one per octahedral vertex).
     Each dual face has 4 edges (since octahedral vertices have degree 4),
     so the dual has 6 square faces = cube. -/
-theorem dual_octahedron_is_cube : DualizationData where
+def dual_octahedron_is_cube : DualizationData where
   source := octahedron
   target := cube
   dual_vertices := by simp [octahedron, cube]
@@ -56,7 +56,7 @@ theorem dual_octahedron_is_cube : DualizationData where
     Each of the 8 cubic vertices is truncated to reveal a triangular face.
     Each of the 6 square faces becomes a smaller square.
     Result: 12 vertices, 24 edges, 14 faces (8 triangles + 6 squares). -/
-theorem rect_cube_is_cuboctahedron : RectificationData where
+def rect_cube_is_cuboctahedron : RectificationData where
   source := cube
   target := cuboctahedron
   vertex_from_edges := by simp [cube, cuboctahedron]
@@ -74,7 +74,7 @@ theorem rect_cube_faces :
     It has 12 vertices → dual has 12 faces.
     Each vertex has degree 4 → each dual face has 4 edges (rhombi).
     The diagonal ratio is √2 : 1, not involving the golden ratio. -/
-theorem dual_cuboctahedron_is_rhombicDodecahedron : DualizationData where
+def dual_cuboctahedron_is_rhombicDodecahedron : DualizationData where
   source := cuboctahedron
   target := rhombicDodecahedron
   dual_vertices := by simp [cuboctahedron, rhombicDodecahedron]
@@ -83,41 +83,21 @@ theorem dual_cuboctahedron_is_rhombicDodecahedron : DualizationData where
 
 /-! ## The Complete Phase I Chain -/
 
-/-- Phase I is a chain of 4 operations. Each preserves or upgrades symmetry
-    from tetrahedral (order 12) through octahedral (order 24).
+/-- Phase I begins at the tetrahedron and ends at the rhombic dodecahedron. -/
+theorem phaseI_start : rect_tetrahedron_is_octahedron.source = tetrahedron := by
+  simp [rect_tetrahedron_is_octahedron, tetrahedron]
 
-    T →(rect)→ O →(dual)→ C →(rect)→ CO →(dual)→ RD -/
-structure PhaseI where
-  step1_rect : RectificationData
-  step2_dual : DualizationData
-  step3_rect : RectificationData
-  step4_dual : DualizationData
-  /-- Step 1 starts at tetrahedron -/
-  starts_at_tetra : step1_rect.source = tetrahedron
-  /-- Steps chain together -/
-  chain_12 : step2_dual.source = step1_rect.target
-  chain_23 : step3_rect.source = step2_dual.target
-  chain_34 : step4_dual.source = step3_rect.target
-  /-- Step 4 ends at rhombic dodecahedron -/
-  ends_at_rd : step4_dual.target = rhombicDodecahedron
+theorem phaseI_chain_12 : dual_octahedron_is_cube.source = rect_tetrahedron_is_octahedron.target := by
+  simp [dual_octahedron_is_cube, rect_tetrahedron_is_octahedron, octahedron]
 
-/-- The concrete Phase I chain. -/
-def phaseI : PhaseI where
-  step1_rect := rect_tetrahedron_is_octahedron
-  step2_dual := dual_octahedron_is_cube
-  step3_rect := rect_cube_is_cuboctahedron
-  step4_dual := dual_cuboctahedron_is_rhombicDodecahedron
-  starts_at_tetra := rfl
-  chain_12 := rfl
-  chain_23 := rfl
-  chain_34 := rfl
-  ends_at_rd := rfl
+theorem phaseI_chain_23 : rect_cube_is_cuboctahedron.source = dual_octahedron_is_cube.target := by
+  simp [rect_cube_is_cuboctahedron, dual_octahedron_is_cube, cube]
 
-/-- Phase I begins at the tetrahedron. -/
-theorem phaseI_start : phaseI.step1_rect.source = tetrahedron := rfl
+theorem phaseI_chain_34 : dual_cuboctahedron_is_rhombicDodecahedron.source = rect_cube_is_cuboctahedron.target := by
+  simp [dual_cuboctahedron_is_rhombicDodecahedron, rect_cube_is_cuboctahedron, cuboctahedron]
 
-/-- Phase I ends at the rhombic dodecahedron. -/
-theorem phaseI_end : phaseI.step4_dual.target = rhombicDodecahedron := rfl
+theorem phaseI_end : dual_cuboctahedron_is_rhombicDodecahedron.target = rhombicDodecahedron := by
+  simp [dual_cuboctahedron_is_rhombicDodecahedron, rhombicDodecahedron]
 
 /-- The symmetry upgrades through Phase I:
     tetrahedral (12) → octahedral (24) throughout. -/

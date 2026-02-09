@@ -13,7 +13,6 @@
 
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Sqrt
-import Mathlib.Data.Real.Irrational
 import Mathlib.Tactic
 
 noncomputable section
@@ -56,35 +55,28 @@ lemma φ_ne_zero : φ ≠ 0 := ne_of_gt φ_pos
 /-- The fundamental identity: φ² = φ + 1. (Proposition corresponding to Eq. 6) -/
 theorem φ_sq : φ ^ 2 = φ + 1 := by
   unfold φ
-  rw [div_pow, div_add_eq_add_div]
-  congr 1
-  ring_nf
-  rw [show (Real.sqrt 5) ^ 2 = 5 from sqrt5_sq]
-  ring
+  have h5 : Real.sqrt 5 ^ 2 = 5 := sqrt5_sq
+  field_simp
+  nlinarith [h5]
 
 /-- The conjugate satisfies the same quadratic: ψ² = ψ + 1. -/
 theorem ψ_sq : ψ ^ 2 = ψ + 1 := by
   unfold ψ
-  rw [div_pow, div_add_eq_add_div]
-  congr 1
-  ring_nf
-  rw [show (Real.sqrt 5) ^ 2 = 5 from sqrt5_sq]
-  ring
+  have h5 : Real.sqrt 5 ^ 2 = 5 := sqrt5_sq
+  field_simp
+  nlinarith [h5]
 
 /-- φ · ψ = -1. This is the product of roots of x² - x - 1 = 0. -/
 theorem φ_mul_ψ : φ * ψ = -1 := by
   unfold φ ψ
-  rw [div_mul_div_comm]
-  congr 1
-  · ring_nf
-    rw [show (Real.sqrt 5) ^ 2 = 5 from sqrt5_sq]
-    ring
-  · ring
+  have h5 : Real.sqrt 5 ^ 2 = 5 := sqrt5_sq
+  field_simp
+  nlinarith [h5]
 
 /-- φ + ψ = 1. This is the sum of roots of x² - x - 1 = 0. -/
 theorem φ_add_ψ : φ + ψ = 1 := by
   unfold φ ψ
-  field_simp
+  ring
 
 /-- φ⁻¹ = φ - 1 = (√5 - 1) / 2. -/
 theorem φ_inv : φ⁻¹ = φ - 1 := by
@@ -166,8 +158,9 @@ theorem φ_inv_eq_neg_ψ : φ⁻¹ = -ψ := by
   The angular width of the stellation belt is 2πφ⁻⁸ radians. -/
 theorem belt_identity : φ ^ 8 + φ⁻¹ ^ 8 = 47 := by
   rw [φ_inv_eq_neg_ψ, neg_pow, show (-1 : ℝ) ^ 8 = 1 from by norm_num, one_mul]
-  rw [φ_pow8, ψ_pow8, φ_add_ψ]
-  ring
+  rw [φ_pow8, ψ_pow8]
+  have h := φ_add_ψ
+  linarith
 
 /-- Equivalent form: φ⁸ + (1/φ)⁸ = 47. -/
 theorem belt_identity' : φ ^ 8 + (1 / φ) ^ 8 = 47 := by
@@ -193,6 +186,7 @@ theorem stellationScaling_pos (n : ℕ) : stellationScaling n > 0 := by
 theorem stellationScaling_strictMono : StrictMono stellationScaling := by
   intro a b hab
   unfold stellationScaling
-  exact pow_lt_pow_right φ_gt_one (by omega)
+  apply pow_lt_pow_right₀ (le_of_lt φ_pos) (ne_of_gt φ_gt_one).symm
+  omega
 
 end

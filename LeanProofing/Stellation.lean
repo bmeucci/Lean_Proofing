@@ -109,7 +109,7 @@ theorem φ_pow10 : φ ^ 10 = 55 * φ + 34 := by
     _ = 55 * φ + 34 := by ring
 
 /-- Stellation from the RT as a concrete operation producing the RHC. -/
-theorem phaseIII_stellation : StellationData where
+def phaseIII_stellation : StellationData where
   source := rhombicTriacontahedron
   target := rhombicHexecontahedron
   face_relation := by simp [rhombicTriacontahedron, rhombicHexecontahedron]
