@@ -87,14 +87,20 @@ def dual_cuboctahedron_is_rhombicDodecahedron : DualizationData where
 theorem phaseI_start : rect_tetrahedron_is_octahedron.source = tetrahedron := by
   simp [rect_tetrahedron_is_octahedron, tetrahedron]
 
-theorem phaseI_chain_12 : dual_octahedron_is_cube.source = rect_tetrahedron_is_octahedron.target := by
-  simp [dual_octahedron_is_cube, rect_tetrahedron_is_octahedron, octahedron]
+theorem phaseI_chain_12 :
+    dual_octahedron_is_cube.source =
+    rect_tetrahedron_is_octahedron.target := by
+  simp [dual_octahedron_is_cube,
+        rect_tetrahedron_is_octahedron, octahedron]
 
 theorem phaseI_chain_23 : rect_cube_is_cuboctahedron.source = dual_octahedron_is_cube.target := by
   simp [rect_cube_is_cuboctahedron, dual_octahedron_is_cube, cube]
 
-theorem phaseI_chain_34 : dual_cuboctahedron_is_rhombicDodecahedron.source = rect_cube_is_cuboctahedron.target := by
-  simp [dual_cuboctahedron_is_rhombicDodecahedron, rect_cube_is_cuboctahedron, cuboctahedron]
+theorem phaseI_chain_34 :
+    dual_cuboctahedron_is_rhombicDodecahedron.source =
+    rect_cube_is_cuboctahedron.target := by
+  simp [dual_cuboctahedron_is_rhombicDodecahedron,
+        rect_cube_is_cuboctahedron, cuboctahedron]
 
 theorem phaseI_end : dual_cuboctahedron_is_rhombicDodecahedron.target = rhombicDodecahedron := by
   simp [dual_cuboctahedron_is_rhombicDodecahedron, rhombicDodecahedron]

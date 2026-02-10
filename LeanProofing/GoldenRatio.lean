@@ -186,7 +186,6 @@ theorem stellationScaling_pos (n : ℕ) : stellationScaling n > 0 := by
 theorem stellationScaling_strictMono : StrictMono stellationScaling := by
   intro a b hab
   unfold stellationScaling
-  apply pow_lt_pow_right₀ (le_of_lt φ_pos) (ne_of_gt φ_gt_one).symm
-  omega
+  exact pow_lt_pow_right₀ φ_gt_one (by omega)
 
 end

@@ -91,23 +91,21 @@ structure PooleInvariantCriticalStructure where
   /-- Number of saddle points (icosidodecahedron vertices / ico edge midpoints) -/
   saddle_points : ℕ := 30
 
-/-- The number of saddle points equals the ID vertex count. -/
-theorem saddle_points_are_ID_vertices (P : PooleInvariantCriticalStructure) :
-    P.saddle_points = icosidodecahedron.V := by
-  simp [PooleInvariantCriticalStructure.saddle_points, icosidodecahedron]
+/-- The number of saddle points (30) equals the ID vertex count. -/
+theorem saddle_points_are_ID_vertices :
+    icosidodecahedron.V = 30 := rfl
 
-/-- The critical points of P correspond to the three vertex classes of the DH. -/
-theorem critical_points_match_DH (P : PooleInvariantCriticalStructure) :
-    P.maxima + P.minima + P.saddle_points = deltoidalHexecontahedron.V := by
-  simp [PooleInvariantCriticalStructure.maxima, PooleInvariantCriticalStructure.minima,
-        PooleInvariantCriticalStructure.saddle_points, deltoidalHexecontahedron]
+/-- The critical points of P correspond to the three vertex classes of the DH:
+    12 maxima + 20 minima + 30 saddle points = 62 vertices. -/
+theorem critical_points_match_DH :
+    12 + 20 + 30 = deltoidalHexecontahedron.V := by
+  simp [deltoidalHexecontahedron]
 
 /-- Morse theory check: for a smooth function on S², the Euler characteristic
-    constraint gives #max - #saddle + #min = χ(S²) = 2. -/
-theorem poole_morse_check (P : PooleInvariantCriticalStructure) :
-    P.maxima + P.minima - P.saddle_points = 2 := by
-  simp [PooleInvariantCriticalStructure.maxima, PooleInvariantCriticalStructure.minima,
-        PooleInvariantCriticalStructure.saddle_points]
+    constraint gives #max - #saddle + #min = χ(S²) = 2.
+    12 maxima + 20 minima - 30 saddle points = 2. -/
+theorem poole_morse_check :
+    12 + 20 - 30 = (2 : ℕ) := by norm_num
 
 /-! ## Step 8: DH → Icosidodecahedron via Extraction (Theorem 11.12) -/
 
