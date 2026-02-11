@@ -36,6 +36,16 @@ Lean reports exactly which foundational axioms any theorem depends on. The main 
 
 These are the minimal logical foundations shared by essentially all of modern mathematics. Notably absent: `sorryAx` (which would indicate an unproven gap). **There are no gaps in this proof.**
 
+### Scope and classical input
+
+This formalization treats certain well-established mathematical facts as definitions rather than deriving them from first principles within Lean:
+
+- **Group orders**: |T| = 12, |O| = 24, |I| = 60 (from Klein's classification)
+- **Element orders**: the tetrahedral rotation group contains only elements of orders 1, 2, and 3
+- **Polyhedral combinatorics**: vertex, edge, and face counts of the Platonic and Archimedean solids (e.g., tetrahedron has V=4, E=6, F=4)
+
+These are classical, uncontroversial inputs — the same data any textbook would cite. What Lean verifies is that the *algebraic and logical consequences* of these inputs (the belt identity, the coset index, the forward-loop closure, the incompatibility theorem) follow rigorously.
+
 ## Verify it yourself
 
 ### Option 1: GitHub Codespaces (no installation required)
@@ -86,3 +96,7 @@ Shiva Meucci, "The Golden-Ratio Polyhedral Journey: A Complete Forward Loop from
 - **Mathlib commit**: pinned in `lake-manifest.json` for exact reproducibility
 - **Lines of proof**: ~1,600 across 9 modules
 - **Build system**: Lake (Lean's build tool)
+
+## License
+
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
