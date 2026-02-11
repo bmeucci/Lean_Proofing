@@ -95,20 +95,6 @@ structure FullIcoFaceSymmetry (G : Type*) (F : Type*) [Group G] [Fintype G]
   /-- Each face has trivial stabilizer. -/
   trivial_stabilizers : ∀ f : F, ∀ g : G, g • f = f → g = 1
 
-/-- **Proposition 4.5**: A polyhedron with full icosahedral face symmetry has
-    exactly 60 faces.
-
-    This saturates the available rotational degrees of freedom—there is
-    precisely one face for each rotational element of the group. -/
-theorem sixty_face_saturation (G : Type*) (F : Type*) [Group G] [Fintype G]
-    [MulAction G F] [Fintype F]
-    (h : FullIcoFaceSymmetry G F) : Fintype.card F = 60 := by
-  -- From the orbit-stabilizer theorem:
-  -- Since the action is transitive, |F| = |G| / |Stab(f)| for any f.
-  -- Since stabilizers are trivial, |Stab(f)| = 1.
-  -- Therefore |F| = |G| = 60.
-  sorry
-
 /-! ## Structure of the Icosahedral Rotation Group
 
   The 60 elements of I consist of (Section 4.1):

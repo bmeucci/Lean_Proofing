@@ -124,7 +124,7 @@ theorem journey_all_forward :
       ForwardOperation.subsetExtraction
     ] := by
   intro s hs
-  simp [completeJourney] at hs
+  simp only [completeJourney, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals simp [step1, step2, step3, step4, step4b, step5, step6, step6b,
                    step7, step8, step9]
@@ -265,3 +265,7 @@ theorem the_golden_ratio_polyhedral_journey :
     5 ∉ tetrahedralElementOrders := by
   refine ⟨rfl, rfl, journey_all_forward, rfl, belt_identity,
          five_tetrahedral_subgroups, no_order_5_in_tetrahedral⟩
+
+-- Verify no sorry or custom axioms in the main theorem.
+-- Expected output: only 'propext', 'Quot.sound', 'Classical.choice'.
+#print axioms the_golden_ratio_polyhedral_journey
