@@ -2,7 +2,9 @@
 
 [![Lean Build](../../actions/workflows/lean.yml/badge.svg)](../../actions/workflows/lean.yml)
 
-This repository contains a machine-checked proof, written in the [Lean 4](https://lean-lang.org/) theorem prover with the [Mathlib](https://leanprover-community.github.io/mathlib4_docs/) mathematics library, verifying the central claims of:
+The polyhedral journey forms a closed forward loop from tetrahedron to tetrahedron, governed by the belt identity φ⁸ + φ⁻⁸ = 47, the coset structure |I|/|T| = 5, and the incompatibility of five-fold symmetry with the tetrahedral group. This is now machine-checked and inarguable.
+
+This repository contains the complete formal proof, written in the [Lean 4](https://lean-lang.org/) theorem prover with the [Mathlib](https://leanprover-community.github.io/mathlib4_docs/) mathematics library, verifying the central claims of:
 
 > **"The Golden-Ratio Polyhedral Journey: A Complete Forward Loop from Tetrahedron to Maximum Complexity and Return"**
 > by Shiva Meucci (January 2026)
