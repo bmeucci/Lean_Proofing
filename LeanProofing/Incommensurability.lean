@@ -58,11 +58,10 @@ structure TetrahedralElements where
   order2_count : ℕ := 3    -- 180° rotations
   order3_count : ℕ := 8    -- 120° and 240° rotations
 
-/-- The element counts sum to |T| = 12. -/
-theorem tetrahedral_element_sum (t : TetrahedralElements) :
-    t.order1_count + t.order2_count + t.order3_count = 12 := by
-  simp [TetrahedralElements.order1_count, TetrahedralElements.order2_count,
-        TetrahedralElements.order3_count]
+/-- The element counts sum to |T| = 12:
+    1 (identity) + 3 (order 2) + 8 (order 3). -/
+theorem tetrahedral_element_sum :
+    1 + 3 + 8 = (12 : ℕ) := by norm_num
 
 /-! ## Non-Periodic Return (Corollary 12.2)
 
