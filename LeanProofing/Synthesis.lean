@@ -165,8 +165,16 @@ theorem face_count_values : faceCountJourney =
         deltoidalHexecontahedron]
 
 /-- The maximum face count in the journey is 60, matching the icosahedral bound. -/
-theorem max_face_count : faceCountJourney.maximum? = some 60 := by
-  native_decide
+theorem max_face_count :
+    60 ∈ faceCountJourney ∧ ∀ n ∈ faceCountJourney, n ≤ 60 := by
+  constructor
+  · simp [faceCountJourney, rhombicHexecontahedron]
+  · intro n hn
+    simp [faceCountJourney, tetrahedron, octahedron, cube, cuboctahedron,
+          rhombicDodecahedron, dodecahedron, icosidodecahedron,
+          rhombicTriacontahedron, rhombicHexecontahedron,
+          deltoidalHexecontahedron] at hn
+    omega
 
 /-! ## The Cascade of Constraints (Section 13.3)
 
