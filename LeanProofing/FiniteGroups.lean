@@ -129,8 +129,10 @@ structure IcosahedralConjugacyData where
   /-- 15 two-fold rotations (180° around 15 axes) -/
   twofold_count : ℕ := 15
 
-/-- The element counts sum to 60: 1 (identity) + 24 (five-fold) + 20 (three-fold) + 15 (two-fold). -/
-theorem icosahedral_element_count : 1 + 24 + 20 + 15 = (60 : ℕ) := by norm_num
+/-- The element counts sum to 60:
+    1 (identity) + 24 (five-fold) + 20 (three-fold) + 15 (two-fold). -/
+theorem icosahedral_element_count :
+    1 + 24 + 20 + 15 = (60 : ℕ) := by norm_num
 
 /-- The number of five-fold symmetry axes. -/
 theorem icosahedral_fivefold_axes : 6 * 4 = 24 := by norm_num

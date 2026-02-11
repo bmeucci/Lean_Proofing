@@ -57,7 +57,7 @@ theorem face_doubling :
 /-- Once 60-face symmetry is achieved (stage 2), it is maintained. -/
 theorem sixty_faces_maintained (i : Fin 5) (hi : i.val ≥ 2) :
     (stellationSequence i).faceCount = 60 := by
-  fin_cases i <;> simp_all [stellationSequence] <;> omega
+  fin_cases i <;> simp_all [stellationSequence]
 
 /-- The terminal stellation has full icosahedral face symmetry. -/
 theorem terminal_has_full_symmetry :
