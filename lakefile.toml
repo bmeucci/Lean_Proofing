@@ -16,3 +16,6 @@ rev = "master"
 
 [[lean_lib]]
 name = "LeanProofing"
+
+[[lean_lib]]
+name = "ForbiddenHarmonics"
