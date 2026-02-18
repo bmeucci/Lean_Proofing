@@ -115,7 +115,7 @@ theorem modular_denominator :
 
 /-- The dimension grows approximately as k/12:
     for large k, dim M_k ≈ k/12. -/
-theorem dim_growth_rate (k : ℕ) (hk : k ≥ 12) (heven : k % 2 = 0) :
+theorem dim_growth_rate (k : ℕ) (_hk : k ≥ 12) (_heven : k % 2 = 0) :
     k / 12 ≤ dimMk k ∧ dimMk k ≤ k / 12 + 1 := by
   constructor
   · unfold dimMk; split <;> omega
@@ -171,5 +171,6 @@ theorem ssp_count : sspList.card = 15 := by decide
 /-- All SSP entries are indeed prime. -/
 theorem ssp_all_prime : ∀ p ∈ sspList, Nat.Prime p := by
   intro p hp
-  simp [sspList] at hp
-  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
+  simp only [sspList, Finset.mem_insert, Finset.mem_singleton] at hp
+  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl |
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num

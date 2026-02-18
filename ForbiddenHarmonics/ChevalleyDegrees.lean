@@ -105,7 +105,7 @@ theorem icosahedral_is_H3 :
 -/
 
 /-- The Molien exponent for B_n (n odd) is n². -/
-theorem Bn_molien_exp (n : ℕ) (hn : n ≥ 3) (hodd : n % 2 = 1) :
+theorem Bn_molien_exp (n : ℕ) (_hn : n ≥ 3) (_hodd : n % 2 = 1) :
     n * n = n ^ 2 := by ring
 
 /-- For B₃: N = 9, harmonic generators (4, 6), gcd = 2. -/

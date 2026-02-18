@@ -25,12 +25,6 @@ import ForbiddenHarmonics.NumericalSemigroup
   Note: R(k) = 0 for k < 0 by convention.
 -/
 
-/-- Whether a degree k is representable in the semigroup ⟨d₁, d₂⟩ (boolean).
-    k ∈ ⟨d₁, d₂⟩ iff ∃ x y : ℕ, k = d₁*x + d₂*y. -/
-def isRepresentable (d₁ d₂ k : ℕ) : Bool :=
-  (Finset.range (k / d₁ + 1)).any fun x =>
-    decide (k ≥ d₁ * x ∧ (k - d₁ * x) % d₂ = 0)
-
 /-! ## Forbidden Degree Predicate (Prop version) -/
 
 /-- Propositional version: degree ℓ is forbidden for harmonic data (d₁, d₂, N). -/
@@ -68,6 +62,4 @@ theorem molien_tetrahedral_forbidden_5 : IsForbiddenDegree 3 4 6 5 := by
 
 /-- Degree 3 is NOT forbidden for the tetrahedral group (3 = 3·1 + 4·0). -/
 theorem molien_tetrahedral_allowed_3 : ¬ IsForbiddenDegree 3 4 6 3 := by
-  unfold IsForbiddenDegree inSemigroup
-  simp
-  exact ⟨1, 0, by norm_num⟩
+  intro ⟨h, _⟩; exact h ⟨1, 0, by norm_num⟩
