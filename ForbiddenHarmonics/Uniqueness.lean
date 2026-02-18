@@ -40,11 +40,11 @@ theorem satI_is_one : satI.forbCount = satI.molienExp := by
 
 /-- sat(T) < 1: 3 < 6. -/
 theorem satT_lt_one : satT.forbCount < satT.molienExp := by
-  simp only [satT]
+  decide
 
 /-- sat(O) < 1: 6 < 9. -/
 theorem satO_lt_one : satO.forbCount < satO.molienExp := by
-  simp only [satO]
+  decide
 
 /-! ## The Uniqueness Equation
 
@@ -93,7 +93,12 @@ theorem uniqueness_exhaustion :
     have : d₂ - 4 ≥ 4 := by omega
     have : (d₁ - 4) * (d₂ - 4) ≥ 16 := by nlinarith
     omega
-  interval_cases d₁ <;> simp_all <;> omega
+  interval_cases d₁
+  · have : d₂ = 16 := by omega
+    subst this; exact absurd hgcd (by decide)
+  · constructor <;> omega
+  · have : d₂ = 8 := by omega
+    subst this; exact absurd hgcd (by decide)
 
 /-! ## Higher-Dimensional Saturation Bounds -/
 
@@ -110,12 +115,14 @@ theorem satB9 : 42 < 81 := by norm_num
 
 /-- For all odd n ≥ 3, Forb(B_n) count = (n²+3)/2 < n² = N.
     So sat(B_n) = (n²+3)/(2n²) < 2/3 for n ≥ 3. -/
-theorem Bn_saturation_bound (n : ℕ) (hn : n ≥ 3) (hodd : n % 2 = 1) :
-    (n * n + 3) / 2 < n * n := by omega
+theorem Bn_saturation_bound (n : ℕ) (hn : n ≥ 3) (_hodd : n % 2 = 1) :
+    (n * n + 3) / 2 < n * n := by
+  have : n * n ≥ 9 := by nlinarith
+  omega
 
 /-- The saturation of B_n approaches 1/2 as n → ∞:
     (n²+3)/(2n²) → 1/2. -/
-theorem Bn_sat_ratio (n : ℕ) (hn : n ≥ 3) :
+theorem Bn_sat_ratio (n : ℕ) (_hn : n ≥ 3) :
     2 * ((n * n + 3) / 2) ≤ n * n + 3 := by omega
 
 /-! ## E₆ and E₇ Saturation -/
@@ -149,10 +156,4 @@ theorem icosahedral_unique_saturation :
     forbI.card = icosahedralData.molienExp ∧
     forbT.card < tetrahedralData.molienExp ∧
     forbO.card < octahedralData.molienExp := by
-  refine ⟨?_, ?_, ?_⟩
-  · -- 15 = 15: simp unfolds both sides to ℕ literals
-    simp only [forbI_card, icosahedralData]
-  · -- 3 < 6
-    simp only [forbT_card, tetrahedralData]; norm_num
-  · -- 6 < 9
-    simp only [forbO_card, octahedralData]; norm_num
+  exact ⟨by decide, by decide, by decide⟩

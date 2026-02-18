@@ -78,21 +78,21 @@ end CoxeterFiniteForb
 theorem tetrahedral_is_A3 :
     tetrahedralData.d₁ = 3 ∧ tetrahedralData.d₂ = 4 ∧
     tetrahedralData.groupOrder = 12 := by
-  simp only [tetrahedralData]
+  decide
 
 /-- Octahedral is isomorphic to B₃ rotation subgroup.
     Parent Coxeter: B₃ with degrees (2, 4, 6). -/
 theorem octahedral_is_B3 :
     octahedralData.d₁ = 4 ∧ octahedralData.d₂ = 6 ∧
     octahedralData.groupOrder = 24 := by
-  simp only [octahedralData]
+  decide
 
 /-- Icosahedral is H₃ rotation subgroup.
     Parent Coxeter: H₃ with degrees (2, 6, 10). -/
 theorem icosahedral_is_H3 :
     icosahedralData.d₁ = 6 ∧ icosahedralData.d₂ = 10 ∧
     icosahedralData.groupOrder = 60 := by
-  simp only [icosahedralData]
+  decide
 
 /-! ## B_n Harmonic Data for Odd n
 

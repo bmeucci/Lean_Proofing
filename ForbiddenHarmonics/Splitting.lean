@@ -116,13 +116,7 @@ theorem forbI_primes_subset_ssp : forbI_primes ⊆ sspList := by
 /-- Every SSP ≤ 29 is a forbidden icosahedral degree. -/
 theorem ssp_le29_in_forbI_primes :
     ∀ p ∈ sspList, p ≤ 29 → p ∈ forbI_primes := by
-  intro p hp hle
-  revert hle
-  simp only [sspList, Finset.mem_insert, Finset.mem_singleton] at hp
-  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl |
-    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-    (intro hle; simp only [forbI_primes, Finset.mem_insert,
-      Finset.mem_singleton]; omega)
+  decide
 
 /-! ## Dimension Threshold = Molien Ceiling
 

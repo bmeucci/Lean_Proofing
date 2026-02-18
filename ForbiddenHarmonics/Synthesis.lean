@@ -81,7 +81,7 @@ theorem chain_ceiling :
 /-- Chain link 5: Icosahedral uniqueness via (d₁-4)(d₂-4) = 12. -/
 theorem chain_uniqueness :
     (6 - 4) * (10 - 4) = 12 ∧ forbI.card = icosahedralData.molienExp := by
-  exact ⟨uniqueness_equation, by simp only [forbI_card, icosahedralData]⟩
+  exact ⟨uniqueness_equation, by decide⟩
 
 /-- Chain link 6: Forbidden set nesting. -/
 theorem chain_nesting :
@@ -94,8 +94,7 @@ theorem chain_klein :
     kleinDeg1 = 2 * icosahedralData.d₁ ∧
     kleinDeg2 = 2 * icosahedralData.d₂ ∧
     kleinDeg3 = 2 * icosahedralData.molienExp := by
-  simp only [binaryIcosahedralOrder, kleinDeg1, kleinDeg2, kleinDeg3,
-    icosahedralData]
+  decide
 
 /-- Chain link 8: Modular form dimensions controlled below ceiling. -/
 theorem chain_dimensions :
