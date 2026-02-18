@@ -190,18 +190,10 @@ theorem forbI_quarter_order : forbI.card = 60 / 4 := by decide
 /-! ## Forbidden Set Nesting (Corollary 2) -/
 
 /-- Forb(T) ⊆ Forb(O). -/
-theorem forbT_subset_forbO : forbT ⊆ forbO := by
-  intro x hx
-  simp [forbT] at hx
-  simp [forbO]
-  rcases hx with rfl | rfl | rfl <;> simp
+theorem forbT_subset_forbO : forbT ⊆ forbO := by decide
 
 /-- Forb(O) ⊆ Forb(I). -/
-theorem forbO_subset_forbI : forbO ⊆ forbI := by
-  intro x hx
-  simp [forbO] at hx
-  simp [forbI]
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl <;> simp
+theorem forbO_subset_forbI : forbO ⊆ forbI := by decide
 
 /-- Forb(T) ⊆ Forb(I) (transitive). -/
 theorem forbT_subset_forbI : forbT ⊆ forbI :=
@@ -212,8 +204,8 @@ theorem forbT_ssubset_forbO : forbT ⊂ forbO := by
   constructor
   · exact forbT_subset_forbO
   · intro h
-    have h3 : (3 : ℕ) ∈ forbO := by simp [forbO]
-    have h3t : (3 : ℕ) ∉ forbT := by simp [forbT]
+    have h3 : (3 : ℕ) ∈ forbO := by decide
+    have h3t : (3 : ℕ) ∉ forbT := by decide
     exact h3t (h h3)
 
 /-- Forb(O) ⊊ Forb(I) (strict subset): 4 ∈ Forb(I) \ Forb(O). -/
@@ -221,8 +213,8 @@ theorem forbO_ssubset_forbI : forbO ⊂ forbI := by
   constructor
   · exact forbO_subset_forbI
   · intro h
-    have h4 : (4 : ℕ) ∈ forbI := by simp [forbI]
-    have h4o : (4 : ℕ) ∉ forbO := by simp [forbO]
+    have h4 : (4 : ℕ) ∈ forbI := by decide
+    have h4o : (4 : ℕ) ∉ forbO := by decide
     exact h4o (h h4)
 
 /-! ## Prime Content of Forb(I) -/
@@ -237,7 +229,7 @@ theorem forbI_primes_card : forbI_primes.card = 10 := by decide
 theorem forbI_primes_are_prime :
     ∀ p ∈ forbI_primes, Nat.Prime p := by
   intro p hp
-  simp [forbI_primes] at hp
+  simp only [forbI_primes, Finset.mem_insert, Finset.mem_singleton] at hp
   rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
 
 /-- The non-prime forbidden degrees. -/
@@ -285,7 +277,5 @@ theorem universal_prime_coverage (p : ℕ) (hp : Nat.Prime p) :
   -- We need odd n ≥ 3 with p < n². Choose n = 2*p + 1 (always odd, ≥ 3 for prime p).
   use 2 * p + 1
   constructor
-  · omega
-  constructor
-  · omega
+  · have := hp.two_le; omega
   · nlinarith [hp.one_le]
