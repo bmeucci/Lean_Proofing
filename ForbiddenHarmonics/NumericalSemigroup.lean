@@ -31,14 +31,24 @@ def inSemigroup (a b n : ℕ) : Prop :=
 instance decidableInSemigroup (a b n : ℕ) : Decidable (inSemigroup a b n) := by
   unfold inSemigroup
   apply decidable_of_iff
-    (∃ x ∈ Finset.range (n + 1), ∃ y ∈ Finset.range (n + 1), n = a * x + b * y)
+    (∃ x ∈ Finset.range (n + 1), ∃ y ∈ Finset.range (n + 1),
+      n = a * x + b * y)
   constructor
   · rintro ⟨x, _, y, _, h⟩
     exact ⟨x, y, h⟩
   · rintro ⟨x, y, h⟩
     refine ⟨if a = 0 then 0 else x, Finset.mem_range.mpr ?_,
-            if b = 0 then 0 else y, Finset.mem_range.mpr ?_, ?_⟩
-    all_goals split_ifs <;> omega
+            if b = 0 then 0 else y, Finset.mem_range.mpr ?_,
+            ?_⟩
+    · split_ifs with ha
+      · omega
+      · have : 0 < a := by omega
+        nlinarith [Nat.zero_le (b * y)]
+    · split_ifs with hb
+      · omega
+      · have : 0 < b := by omega
+        nlinarith [Nat.zero_le (a * x)]
+    · split_ifs with ha hb <;> simp_all
 
 /-- A gap of ⟨a,b⟩ is a natural number not representable. -/
 def isGap (a b n : ℕ) : Prop := ¬ inSemigroup a b n
