@@ -26,10 +26,19 @@ import Mathlib.Data.Finset.Card
 def inSemigroup (a b n : ℕ) : Prop :=
   ∃ x y : ℕ, n = a * x + b * y
 
-/-- Decidable membership for numerical semigroups (finite check). -/
-instance (a b n : ℕ) : Decidable (inSemigroup a b n) := by
+/-- Decidable membership for numerical semigroups (bounded search).
+    We bound both x ≤ n and y ≤ n since a*x ≤ n and b*y ≤ n. -/
+instance decidableInSemigroup (a b n : ℕ) : Decidable (inSemigroup a b n) := by
   unfold inSemigroup
-  exact inferInstance
+  apply decidable_of_iff
+    (∃ x ∈ Finset.range (n + 1), ∃ y ∈ Finset.range (n + 1), n = a * x + b * y)
+  constructor
+  · rintro ⟨x, _, y, _, h⟩
+    exact ⟨x, y, h⟩
+  · rintro ⟨x, y, h⟩
+    refine ⟨if a = 0 then 0 else x, Finset.mem_range.mpr ?_,
+            if b = 0 then 0 else y, Finset.mem_range.mpr ?_, ?_⟩
+    all_goals split_ifs <;> omega
 
 /-- A gap of ⟨a,b⟩ is a natural number not representable. -/
 def isGap (a b n : ℕ) : Prop := ¬ inSemigroup a b n
@@ -101,7 +110,7 @@ theorem not_gap_3_5_6 : inSemigroup 3 5 6 := ⟨2, 0, by norm_num⟩
 theorem not_gap_3_5_8 : inSemigroup 3 5 8 := ⟨1, 1, by norm_num⟩
 
 /-- The gap count of ⟨3,5⟩ is 4, matching Sylvester's formula (3-1)(5-1)/2. -/
-theorem gaps_3_5_count : gaps_3_5.card = 4 := by native_decide
+theorem gaps_3_5_count : gaps_3_5.card = 4 := by decide
 
 /-- Sylvester's formula for ⟨3,5⟩: gap count = (3-1)(5-1)/2 = 4. -/
 theorem sylvester_3_5 : (3 - 1) * (5 - 1) / 2 = 4 := by norm_num
@@ -122,7 +131,7 @@ theorem gap_3_4_5 : isGap 3 4 5 := by
   unfold isGap inSemigroup; push_neg; intro x y; omega
 
 /-- The gap count of ⟨3,4⟩ is 3, matching Sylvester's formula (3-1)(4-1)/2 = 3. -/
-theorem gaps_3_4_count : gaps_3_4.card = 3 := by native_decide
+theorem gaps_3_4_count : gaps_3_4.card = 3 := by decide
 
 /-- Sylvester's formula for ⟨3,4⟩: gap count = (3-1)(4-1)/2 = 3. -/
 theorem sylvester_3_4 : (3 - 1) * (4 - 1) / 2 = 3 := by norm_num
@@ -135,7 +144,7 @@ theorem gap_2_3_1 : isGap 2 3 1 := by
   unfold isGap inSemigroup; push_neg; intro x y; omega
 
 /-- The gap count of ⟨2,3⟩ is 1. -/
-theorem gaps_2_3_count : gaps_2_3.card = 1 := by native_decide
+theorem gaps_2_3_count : gaps_2_3.card = 1 := by decide
 
 /-- Sylvester's formula for ⟨2,3⟩: gap count = (2-1)(3-1)/2 = 1. -/
 theorem sylvester_2_3 : (2 - 1) * (3 - 1) / 2 = 1 := by norm_num
@@ -150,7 +159,7 @@ theorem sylvester_2_3 : (2 - 1) * (3 - 1) / 2 = 1 := by norm_num
 def evenGaps_I : Finset ℕ := {2, 4, 8, 14}
 
 /-- The even gaps have 4 elements. -/
-theorem evenGaps_I_count : evenGaps_I.card = 4 := by native_decide
+theorem evenGaps_I_count : evenGaps_I.card = 4 := by decide
 
 /-- The post-threshold forbidden degrees: N + 2 × gaps(⟨3,5⟩) = {17, 19, 23, 29}. -/
 def postThreshold_I : Finset ℕ := {17, 19, 23, 29}
@@ -161,4 +170,4 @@ theorem postThreshold_computation :
   constructor <;> [norm_num; constructor <;> [norm_num; constructor <;> norm_num]]
 
 /-- The post-threshold set has 4 elements. -/
-theorem postThreshold_I_count : postThreshold_I.card = 4 := by native_decide
+theorem postThreshold_I_count : postThreshold_I.card = 4 := by decide

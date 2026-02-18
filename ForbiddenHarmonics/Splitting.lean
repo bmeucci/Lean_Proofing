@@ -32,7 +32,7 @@ theorem trivial_split_small_primes :
     dimMk (5 - 1) ≤ 2 ∧ dimMk (7 - 1) ≤ 2 ∧ dimMk (11 - 1) ≤ 2 ∧
     dimMk (13 - 1) ≤ 2 ∧ dimMk (17 - 1) ≤ 2 ∧ dimMk (19 - 1) ≤ 2 ∧
     dimMk (23 - 1) ≤ 2 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> native_decide
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide
 
 /-! ### Case 2: dim = 3 (prime p = 29)
 
@@ -86,7 +86,7 @@ theorem p29_is_ssp : 29 ∈ sspList := by decide
 -/
 
 /-- At p = 37: dim M_36 = 4 > 3. -/
-theorem dim_escape_37 : dimMk (37 - 1) = 4 := by native_decide
+theorem dim_escape_37 : dimMk (37 - 1) = 4 := by decide
 
 /-- 4 > 3: the dimension exceeds the icosahedral constraint capacity. -/
 theorem dim_exceeds_constraint : 4 > 3 := by norm_num
@@ -106,15 +106,15 @@ theorem p37_prime : Nat.Prime 37 := by norm_num
 def denseSSP : Finset ℕ := sspList.filter (· ≤ 29)
 
 /-- The dense SSP has 10 elements. -/
-theorem denseSSP_card : denseSSP.card = 10 := by native_decide
+theorem denseSSP_card : denseSSP.card = 10 := by decide
 
 /-- The dense SSP equals the prime forbidden icosahedral degrees. -/
 theorem denseSSP_eq_forbI_primes : denseSSP = forbI_primes := by
-  native_decide
+  decide
 
 /-- Every prime forbidden degree of I is a supersingular prime. -/
 theorem forbI_primes_subset_ssp : forbI_primes ⊆ sspList := by
-  native_decide
+  decide
 
 /-- Every SSP ≤ 29 is a forbidden icosahedral degree. -/
 theorem ssp_le29_in_forbI_primes :

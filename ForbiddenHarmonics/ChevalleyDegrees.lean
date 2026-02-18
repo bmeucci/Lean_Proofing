@@ -110,7 +110,7 @@ theorem Bn_molien_exp (n : ℕ) (hn : n ≥ 3) (hodd : n % 2 = 1) :
 
 /-- For B₃: N = 9, harmonic generators (4, 6), gcd = 2. -/
 theorem B3_data : 3 * 3 = 9 ∧ Nat.gcd 4 6 = 2 := by
-  constructor <;> native_decide
+  constructor <;> decide
 
 /-- For B₅: N = 25, gcd of harmonic generators = 2. -/
 theorem B5_N : 5 * 5 = 25 := by norm_num

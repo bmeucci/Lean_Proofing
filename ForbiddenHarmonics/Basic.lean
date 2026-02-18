@@ -115,19 +115,27 @@ def icosahedralData : PolyhedralHarmonicData where
 
 /-! ## Basic verification of harmonic data -/
 
-theorem tetrahedral_product : tetrahedralData.d₁ * tetrahedralData.d₂ = 12 := by norm_num [tetrahedralData]
-theorem octahedral_product : octahedralData.d₁ * octahedralData.d₂ = 24 := by norm_num [octahedralData]
-theorem icosahedral_product : icosahedralData.d₁ * icosahedralData.d₂ = 60 := by norm_num [icosahedralData]
+theorem tetrahedral_product :
+    tetrahedralData.d₁ * tetrahedralData.d₂ = 12 := by
+  norm_num [tetrahedralData]
+
+theorem octahedral_product :
+    octahedralData.d₁ * octahedralData.d₂ = 24 := by
+  norm_num [octahedralData]
+
+theorem icosahedral_product :
+    icosahedralData.d₁ * icosahedralData.d₂ = 60 := by
+  norm_num [icosahedralData]
 
 theorem tetrahedral_N : tetrahedralData.molienExp = 6 := by norm_num [tetrahedralData]
 theorem octahedral_N : octahedralData.molienExp = 9 := by norm_num [octahedralData]
 theorem icosahedral_N : icosahedralData.molienExp = 15 := by norm_num [icosahedralData]
 
 /-- The gcd of the icosahedral harmonic degrees is 2. -/
-theorem icosahedral_gcd : Nat.gcd 6 10 = 2 := by native_decide
+theorem icosahedral_gcd : Nat.gcd 6 10 = 2 := by decide
 
 /-- The gcd of the octahedral harmonic degrees is 2. -/
-theorem octahedral_gcd : Nat.gcd 4 6 = 2 := by native_decide
+theorem octahedral_gcd : Nat.gcd 4 6 = 2 := by decide
 
 /-- The gcd of the tetrahedral harmonic degrees is 1. -/
-theorem tetrahedral_gcd : Nat.gcd 3 4 = 1 := by native_decide
+theorem tetrahedral_gcd : Nat.gcd 3 4 = 1 := by decide

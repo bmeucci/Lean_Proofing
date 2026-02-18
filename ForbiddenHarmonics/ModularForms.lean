@@ -31,21 +31,21 @@ def dimMk (k : ℕ) : ℕ :=
   if k % 12 = 2 then k / 12 else k / 12 + 1
 
 /-- Dimension table verification for specific weights. -/
-theorem dim_M4 : dimMk 4 = 1 := by native_decide
-theorem dim_M6 : dimMk 6 = 1 := by native_decide
-theorem dim_M8 : dimMk 8 = 1 := by native_decide
-theorem dim_M10 : dimMk 10 = 1 := by native_decide
-theorem dim_M12 : dimMk 12 = 2 := by native_decide
-theorem dim_M14 : dimMk 14 = 1 := by native_decide
-theorem dim_M16 : dimMk 16 = 2 := by native_decide
-theorem dim_M18 : dimMk 18 = 2 := by native_decide
-theorem dim_M20 : dimMk 20 = 2 := by native_decide
-theorem dim_M22 : dimMk 22 = 2 := by native_decide
-theorem dim_M24 : dimMk 24 = 3 := by native_decide
-theorem dim_M26 : dimMk 26 = 2 := by native_decide
-theorem dim_M28 : dimMk 28 = 3 := by native_decide
-theorem dim_M30 : dimMk 30 = 3 := by native_decide
-theorem dim_M36 : dimMk 36 = 4 := by native_decide
+theorem dim_M4 : dimMk 4 = 1 := by decide
+theorem dim_M6 : dimMk 6 = 1 := by decide
+theorem dim_M8 : dimMk 8 = 1 := by decide
+theorem dim_M10 : dimMk 10 = 1 := by decide
+theorem dim_M12 : dimMk 12 = 2 := by decide
+theorem dim_M14 : dimMk 14 = 1 := by decide
+theorem dim_M16 : dimMk 16 = 2 := by decide
+theorem dim_M18 : dimMk 18 = 2 := by decide
+theorem dim_M20 : dimMk 20 = 2 := by decide
+theorem dim_M22 : dimMk 22 = 2 := by decide
+theorem dim_M24 : dimMk 24 = 3 := by decide
+theorem dim_M26 : dimMk 26 = 2 := by decide
+theorem dim_M28 : dimMk 28 = 3 := by decide
+theorem dim_M30 : dimMk 30 = 3 := by decide
+theorem dim_M36 : dimMk 36 = 4 := by decide
 
 /-! ## Dimension for p-1 where p is prime
 
@@ -64,25 +64,25 @@ theorem dim_M36 : dimMk 36 = 4 := by native_decide
 -/
 
 /-- For p = 5: dim M_4 = 1. -/
-theorem dim_at_5 : dimMk (5 - 1) = 1 := by native_decide
+theorem dim_at_5 : dimMk (5 - 1) = 1 := by decide
 /-- For p = 7: dim M_6 = 1. -/
-theorem dim_at_7 : dimMk (7 - 1) = 1 := by native_decide
+theorem dim_at_7 : dimMk (7 - 1) = 1 := by decide
 /-- For p = 11: dim M_10 = 1. -/
-theorem dim_at_11 : dimMk (11 - 1) = 1 := by native_decide
+theorem dim_at_11 : dimMk (11 - 1) = 1 := by decide
 /-- For p = 13: dim M_12 = 2. -/
-theorem dim_at_13 : dimMk (13 - 1) = 2 := by native_decide
+theorem dim_at_13 : dimMk (13 - 1) = 2 := by decide
 /-- For p = 17: dim M_16 = 2. -/
-theorem dim_at_17 : dimMk (17 - 1) = 2 := by native_decide
+theorem dim_at_17 : dimMk (17 - 1) = 2 := by decide
 /-- For p = 19: dim M_18 = 2. -/
-theorem dim_at_19 : dimMk (19 - 1) = 2 := by native_decide
+theorem dim_at_19 : dimMk (19 - 1) = 2 := by decide
 /-- For p = 23: dim M_22 = 2. -/
-theorem dim_at_23 : dimMk (23 - 1) = 2 := by native_decide
+theorem dim_at_23 : dimMk (23 - 1) = 2 := by decide
 /-- For p = 29: dim M_28 = 3 (Molien ceiling). -/
-theorem dim_at_29 : dimMk (29 - 1) = 3 := by native_decide
+theorem dim_at_29 : dimMk (29 - 1) = 3 := by decide
 /-- For p = 31: dim M_30 = 3. -/
-theorem dim_at_31 : dimMk (31 - 1) = 3 := by native_decide
+theorem dim_at_31 : dimMk (31 - 1) = 3 := by decide
 /-- For p = 37: dim M_36 = 4 (first dimension jump). -/
-theorem dim_at_37 : dimMk (37 - 1) = 4 := by native_decide
+theorem dim_at_37 : dimMk (37 - 1) = 4 := by decide
 
 /-! ## Critical Dimension Transitions -/
 
@@ -91,17 +91,17 @@ theorem dim_controlled_below_ceiling :
     dimMk (5 - 1) ≤ 3 ∧ dimMk (7 - 1) ≤ 3 ∧ dimMk (11 - 1) ≤ 3 ∧
     dimMk (13 - 1) ≤ 3 ∧ dimMk (17 - 1) ≤ 3 ∧ dimMk (19 - 1) ≤ 3 ∧
     dimMk (23 - 1) ≤ 3 ∧ dimMk (29 - 1) ≤ 3 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> native_decide
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide
 
 /-- The first prime with dim M_{p-1} = 4 is p = 37. -/
-theorem dim_first_escape : dimMk (37 - 1) = 4 := by native_decide
+theorem dim_first_escape : dimMk (37 - 1) = 4 := by decide
 
 /-- For p ≤ 23: dim M_{p-1} ≤ 2, so at most 1 generic root. -/
 theorem dim_at_most_2_small :
     dimMk (5 - 1) ≤ 2 ∧ dimMk (7 - 1) ≤ 2 ∧ dimMk (11 - 1) ≤ 2 ∧
     dimMk (13 - 1) ≤ 2 ∧ dimMk (17 - 1) ≤ 2 ∧ dimMk (19 - 1) ≤ 2 ∧
     dimMk (23 - 1) ≤ 2 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> native_decide
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> decide
 
 /-! ## The Denominator 12
 
@@ -166,7 +166,7 @@ def IsSupersingularPrime (p : ℕ) : Prop :=
 def sspList : Finset ℕ := {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 41, 47, 59, 71}
 
 /-- There are exactly 15 supersingular primes. -/
-theorem ssp_count : sspList.card = 15 := by native_decide
+theorem ssp_count : sspList.card = 15 := by decide
 
 /-- All SSP entries are indeed prime. -/
 theorem ssp_all_prime : ∀ p ∈ sspList, Nat.Prime p := by

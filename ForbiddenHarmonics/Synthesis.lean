@@ -53,7 +53,7 @@ theorem main_theorem :
     -- equal the dense supersingular primes
     = denseSSP := by
   -- Both are computable finite sets; verify by decision procedure
-  native_decide
+  decide
 
 /-! ## Verification of Individual Chain Links -/
 
@@ -71,7 +71,7 @@ theorem chain_g4 :
 theorem chain_decomposition :
     parityWall_I.card + evenGapsDecomp_I.card + postThresholdDecomp_I.card = 15 ∧
     parityWall_I ∪ evenGapsDecomp_I ∪ postThresholdDecomp_I = forbI := by
-  exact ⟨by native_decide, decomp_union_eq_forbI⟩
+  exact ⟨by decide, decomp_union_eq_forbI⟩
 
 /-- Chain link 4: The forbidden ceiling is 29 = |I|/2 - 1. -/
 theorem chain_ceiling :
@@ -100,8 +100,8 @@ theorem chain_klein :
 theorem chain_dimensions :
     dimMk (29 - 1) ≤ 3 ∧ dimMk (37 - 1) = 4 := by
   constructor
-  · native_decide
-  · native_decide
+  · decide
+  · decide
 
 /-- Chain link 9: Quadratic residue at p = 29 forces splitting. -/
 theorem chain_qr29 :
@@ -112,7 +112,7 @@ theorem chain_qr29 :
 theorem chain_coincidence :
     denseSSP = forbI_primes ∧ denseSSP.card = 10 := by
   constructor
-  · native_decide
+  · decide
   · exact denseSSP_card
 
 /-! ## Summary Statistics -/

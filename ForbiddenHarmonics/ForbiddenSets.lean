@@ -36,10 +36,10 @@ theorem forbT_5_forbidden : IsForbiddenDegree 3 4 6 5 := by
   · left; omega
 
 /-- |Forb(T)| = 3. -/
-theorem forbT_card : forbT.card = 3 := by native_decide
+theorem forbT_card : forbT.card = 3 := by decide
 
 /-- |Forb(T)| = |T|/4 = 12/4 = 3. -/
-theorem forbT_quarter_order : forbT.card = 12 / 4 := by native_decide
+theorem forbT_quarter_order : forbT.card = 12 / 4 := by decide
 
 /-! ## Octahedral Forbidden Set: Forb(O) = {1, 2, 3, 5, 7, 11} -/
 
@@ -79,10 +79,10 @@ theorem forbO_11_forbidden : IsForbiddenDegree 4 6 9 11 := by
     unfold inSemigroup; push_neg; intro x y; omega
 
 /-- |Forb(O)| = 6. -/
-theorem forbO_card : forbO.card = 6 := by native_decide
+theorem forbO_card : forbO.card = 6 := by decide
 
 /-- |Forb(O)| = |O|/4 = 24/4 = 6. -/
-theorem forbO_quarter_order : forbO.card = 24 / 4 := by native_decide
+theorem forbO_quarter_order : forbO.card = 24 / 4 := by decide
 
 /-! ## Icosahedral Forbidden Set: Forb(I) -/
 
@@ -182,10 +182,10 @@ theorem forbI_30_allowed : ¬ IsForbiddenDegree 6 10 15 30 := by
   intro ⟨h, _⟩; exact h ⟨5, 0, by norm_num⟩
 
 /-- |Forb(I)| = 15. -/
-theorem forbI_card : forbI.card = 15 := by native_decide
+theorem forbI_card : forbI.card = 15 := by decide
 
 /-- |Forb(I)| = |I|/4 = 60/4 = 15. -/
-theorem forbI_quarter_order : forbI.card = 60 / 4 := by native_decide
+theorem forbI_quarter_order : forbI.card = 60 / 4 := by decide
 
 /-! ## Forbidden Set Nesting (Corollary 2) -/
 
@@ -231,7 +231,7 @@ theorem forbO_ssubset_forbI : forbO ⊂ forbI := by
 def forbI_primes : Finset ℕ := {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}
 
 /-- There are 10 prime forbidden degrees. -/
-theorem forbI_primes_card : forbI_primes.card = 10 := by native_decide
+theorem forbI_primes_card : forbI_primes.card = 10 := by decide
 
 /-- Every prime in Forb(I) is indeed prime. -/
 theorem forbI_primes_are_prime :
@@ -244,7 +244,7 @@ theorem forbI_primes_are_prime :
 def forbI_nonprimes : Finset ℕ := {1, 4, 8, 9, 14}
 
 /-- There are 5 non-prime forbidden degrees. -/
-theorem forbI_nonprimes_card : forbI_nonprimes.card = 5 := by native_decide
+theorem forbI_nonprimes_card : forbI_nonprimes.card = 5 := by decide
 
 /-- The total count: 10 primes + 5 non-primes = 15. -/
 theorem forbI_prime_nonprime_sum : 10 + 5 = 15 := by norm_num

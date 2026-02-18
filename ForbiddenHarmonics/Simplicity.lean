@@ -23,13 +23,13 @@ import ForbiddenHarmonics.Uniqueness
 -/
 
 /-- The tetrahedral group has order 12 = |A₄| = 4!/2. -/
-theorem T_order_eq_A4 : 12 = Nat.factorial 4 / 2 := by native_decide
+theorem T_order_eq_A4 : 12 = Nat.factorial 4 / 2 := by decide
 
 /-- The octahedral group has order 24 = |S₄| = 4!. -/
-theorem O_order_eq_S4 : 24 = Nat.factorial 4 := by native_decide
+theorem O_order_eq_S4 : 24 = Nat.factorial 4 := by decide
 
 /-- The icosahedral group has order 60 = |A₅| = 5!/2. -/
-theorem I_order_eq_A5 : 60 = Nat.factorial 5 / 2 := by native_decide
+theorem I_order_eq_A5 : 60 = Nat.factorial 5 / 2 := by decide
 
 /-! ## Normal Subgroup Structure
 
@@ -129,6 +129,6 @@ theorem overdetermined_uniqueness :
     icosahedralData.d₂ / 2 = 5 ∧
     -- (d) Unique saturation-1 group
     forbI.card = icosahedralData.molienExp := by
-  refine ⟨by native_decide, by norm_num, by norm_num, ?_, ?_⟩
+  refine ⟨by decide, by norm_num, by norm_num, ?_, ?_⟩
   · simp [icosahedralData]
   · simp [forbI_card, icosahedralData]

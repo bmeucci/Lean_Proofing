@@ -26,13 +26,13 @@ def evenGapsDecomp_I : Finset ℕ := {2, 4, 8, 14}
 def postThresholdDecomp_I : Finset ℕ := {17, 19, 23, 29}
 
 /-- The parity wall has 7 elements. -/
-theorem parityWall_I_card : parityWall_I.card = 7 := by native_decide
+theorem parityWall_I_card : parityWall_I.card = 7 := by decide
 
 /-- The even gaps have 4 elements. -/
-theorem evenGapsDecomp_I_card : evenGapsDecomp_I.card = 4 := by native_decide
+theorem evenGapsDecomp_I_card : evenGapsDecomp_I.card = 4 := by decide
 
 /-- The post-threshold has 4 elements. -/
-theorem postThresholdDecomp_I_card : postThresholdDecomp_I.card = 4 := by native_decide
+theorem postThresholdDecomp_I_card : postThresholdDecomp_I.card = 4 := by decide
 
 /-- 7 + 4 + 4 = 15 = |Forb(I)|. -/
 theorem decomposition_count : 7 + 4 + 4 = 15 := by norm_num
@@ -61,7 +61,7 @@ theorem decomp_disjoint_eg_pt : Disjoint evenGapsDecomp_I postThresholdDecomp_I 
 /-- The union of all three components equals Forb(I). -/
 theorem decomp_union_eq_forbI :
     parityWall_I ∪ evenGapsDecomp_I ∪ postThresholdDecomp_I = forbI := by
-  native_decide
+  decide
 
 /-! ## Parity Wall Analysis -/
 
@@ -124,7 +124,7 @@ def iUniquePrimes : Finset ℕ := {13, 17, 19, 23, 29}
 
 /-- The I-unique primes are exactly those in Forb(I) but not in Forb(O). -/
 theorem iUnique_sdiff : forbI \ forbO = {4, 8, 9, 13, 14, 17, 19, 23, 29} := by
-  native_decide
+  decide
 
 /-- The 4 post-threshold I-unique primes are exactly N + 2 × gaps(⟨3,5⟩). -/
 theorem iUnique_postThreshold :
@@ -154,7 +154,7 @@ theorem ceiling_half_order : 60 / 2 - 1 = 29 := by norm_num
 theorem ceiling_2ab : 2 * 3 * 5 - 1 = 29 := by norm_num
 
 /-- lcm(d₁, d₂) = 30 = first allowed degree above ceiling. -/
-theorem lcm_first_allowed : Nat.lcm 6 10 = 30 := by native_decide
+theorem lcm_first_allowed : Nat.lcm 6 10 = 30 := by decide
 
 /-- 30 = |I|/2 is the first degree where both generators synchronize. -/
 theorem sync_degree : 60 / 2 = 30 := by norm_num
