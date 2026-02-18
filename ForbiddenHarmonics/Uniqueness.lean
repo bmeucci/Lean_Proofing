@@ -86,7 +86,7 @@ theorem uniqueness_exhaustion :
   -- d₁ must be ≤ 7 (if d₁ ≥ 8 then d₁-4 ≥ 4, d₂-4 ≥ 4, product ≥ 16 > 12)
   have hd₁_ge5 : d₁ ≥ 5 := by
     by_contra h; push_neg at h
-    interval_cases d₁ <;> simp_all <;> omega
+    interval_cases d₁ <;> simp_all
   have hd₁_le7 : d₁ ≤ 7 := by
     by_contra h; push_neg at h
     have : d₁ - 4 ≥ 4 := by omega
@@ -101,8 +101,6 @@ theorem uniqueness_exhaustion :
     subst this; exact absurd hgcd (by decide)
 
 /-! ## Higher-Dimensional Saturation Bounds -/
-
-/-- Saturation data for higher-dimensional groups. -/
 
 /-- B₅ saturation: 14/25. -/
 theorem satB5 : 14 < 25 := by norm_num
