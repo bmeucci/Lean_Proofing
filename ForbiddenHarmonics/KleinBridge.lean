@@ -55,14 +55,14 @@ def kleinDeg3 : ℕ := 30
 /-- Klein degrees are exactly twice the Molien harmonic data (d₁, d₂, N). -/
 theorem klein_doubling :
     kleinDeg1 = 2 * 6 ∧ kleinDeg2 = 2 * 10 ∧ kleinDeg3 = 2 * 15 := by
-  simp [kleinDeg1, kleinDeg2, kleinDeg3]
+  simp only [kleinDeg1, kleinDeg2, kleinDeg3]
 
 /-- Klein degrees are twice the icosahedral harmonic data. -/
 theorem klein_from_icosahedral :
     kleinDeg1 = 2 * icosahedralData.d₁ ∧
     kleinDeg2 = 2 * icosahedralData.d₂ ∧
     kleinDeg3 = 2 * icosahedralData.molienExp := by
-  simp [kleinDeg1, kleinDeg2, kleinDeg3, icosahedralData]
+  decide
 
 /-- The sum of Klein degrees: 12 + 20 + 30 = 62. -/
 theorem klein_degree_sum : kleinDeg1 + kleinDeg2 + kleinDeg3 = 62 := by
@@ -88,7 +88,7 @@ theorem icosahedral_equation_balance :
     5 * kleinDeg1 = 60 ∧
     2 * kleinDeg3 = 60 ∧
     3 * kleinDeg2 = 60 := by
-  simp [kleinDeg1, kleinDeg2, kleinDeg3]
+  simp only [kleinDeg1, kleinDeg2, kleinDeg3]
 
 /-- The balanced degree 60 = |I| (icosahedral group order). -/
 theorem balanced_degree_eq_order : 5 * 12 = 60 := by norm_num

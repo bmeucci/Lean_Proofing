@@ -117,7 +117,7 @@ theorem I_unique_fivefold :
     5 ∈ ({3, 5} : Finset ℕ) ∧
     -- The octahedral generators (2,3) do not include 5
     5 ∉ ({2, 3} : Finset ℕ) := by
-  constructor <;> simp
+  constructor <;> decide
 
 /-- **Corollary 4**: All four characterizations converge on I = A₅. -/
 theorem overdetermined_uniqueness :
@@ -130,5 +130,5 @@ theorem overdetermined_uniqueness :
     -- (d) Unique saturation-1 group
     forbI.card = icosahedralData.molienExp := by
   refine ⟨by decide, by norm_num, by norm_num, ?_, ?_⟩
-  · simp [icosahedralData]
-  · simp [forbI_card, icosahedralData]
+  · simp only [icosahedralData]
+  · simp only [forbI_card, icosahedralData]

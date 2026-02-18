@@ -41,22 +41,13 @@ theorem decomposition_count : 7 + 4 + 4 = 15 := by norm_num
 
 /-- The three components are pairwise disjoint. -/
 theorem decomp_disjoint_pw_eg : Disjoint parityWall_I evenGapsDecomp_I := by
-  rw [Finset.disjoint_left]
-  intro x hx hx2
-  simp [parityWall_I] at hx; simp [evenGapsDecomp_I] at hx2
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all
+  rw [Finset.disjoint_left]; decide
 
 theorem decomp_disjoint_pw_pt : Disjoint parityWall_I postThresholdDecomp_I := by
-  rw [Finset.disjoint_left]
-  intro x hx hx2
-  simp [parityWall_I] at hx; simp [postThresholdDecomp_I] at hx2
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> simp_all
+  rw [Finset.disjoint_left]; decide
 
 theorem decomp_disjoint_eg_pt : Disjoint evenGapsDecomp_I postThresholdDecomp_I := by
-  rw [Finset.disjoint_left]
-  intro x hx hx2
-  simp [evenGapsDecomp_I] at hx; simp [postThresholdDecomp_I] at hx2
-  rcases hx with rfl | rfl | rfl | rfl <;> simp_all
+  rw [Finset.disjoint_left]; decide
 
 /-- The union of all three components equals Forb(I). -/
 theorem decomp_union_eq_forbI :
@@ -67,17 +58,11 @@ theorem decomp_union_eq_forbI :
 
 /-- All parity wall elements are odd. -/
 theorem parityWall_all_odd :
-    ∀ x ∈ parityWall_I, x % 2 = 1 := by
-  intro x hx
-  simp [parityWall_I] at hx
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
+    ∀ x ∈ parityWall_I, x % 2 = 1 := by decide
 
 /-- All parity wall elements are less than N = 15. -/
 theorem parityWall_below_N :
-    ∀ x ∈ parityWall_I, x < 15 := by
-  intro x hx
-  simp [parityWall_I] at hx
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
+    ∀ x ∈ parityWall_I, x < 15 := by decide
 
 /-- The parity wall count matches a + b - 1 = 3 + 5 - 1 = 7. -/
 theorem parityWall_count_formula : 3 + 5 - 1 = 7 := by norm_num
@@ -86,10 +71,7 @@ theorem parityWall_count_formula : 3 + 5 - 1 = 7 := by norm_num
 
 /-- All even gap elements are even. -/
 theorem evenGaps_all_even :
-    ∀ x ∈ evenGapsDecomp_I, x % 2 = 0 := by
-  intro x hx
-  simp [evenGapsDecomp_I] at hx
-  rcases hx with rfl | rfl | rfl | rfl <;> norm_num
+    ∀ x ∈ evenGapsDecomp_I, x % 2 = 0 := by decide
 
 /-- Even gaps are exactly 2 × gaps(⟨3,5⟩). -/
 theorem evenGaps_from_semigroup :
@@ -100,10 +82,7 @@ theorem evenGaps_from_semigroup :
 
 /-- All post-threshold elements are above N = 15. -/
 theorem postThreshold_above_N :
-    ∀ x ∈ postThresholdDecomp_I, x > 15 := by
-  intro x hx
-  simp [postThresholdDecomp_I] at hx
-  rcases hx with rfl | rfl | rfl | rfl <;> norm_num
+    ∀ x ∈ postThresholdDecomp_I, x > 15 := by decide
 
 /-- Post-threshold elements are N + 2 × gaps(⟨3,5⟩). -/
 theorem postThreshold_from_semigroup :
@@ -112,10 +91,7 @@ theorem postThreshold_from_semigroup :
 
 /-- All post-threshold forbidden degrees are prime. -/
 theorem postThreshold_all_prime :
-    ∀ p ∈ postThresholdDecomp_I, Nat.Prime p := by
-  intro p hp
-  simp [postThresholdDecomp_I] at hp
-  rcases hp with rfl | rfl | rfl | rfl <;> norm_num
+    ∀ p ∈ postThresholdDecomp_I, Nat.Prime p := by decide
 
 /-! ## Corollary 3: I-Unique Primes -/
 
@@ -128,18 +104,12 @@ theorem iUnique_sdiff : forbI \ forbO = {4, 8, 9, 13, 14, 17, 19, 23, 29} := by
 
 /-- The 4 post-threshold I-unique primes are exactly N + 2 × gaps(⟨3,5⟩). -/
 theorem iUnique_postThreshold :
-    postThresholdDecomp_I ⊆ iUniquePrimes := by
-  intro x hx
-  simp [postThresholdDecomp_I, iUniquePrimes] at hx ⊢
-  rcases hx with rfl | rfl | rfl | rfl <;> simp
+    postThresholdDecomp_I ⊆ iUniquePrimes := by decide
 
 /-! ## Proposition 7: Forbidden Ceiling -/
 
 /-- The largest element of Forb(I) is 29. -/
-theorem forbI_max : ∀ x ∈ forbI, x ≤ 29 := by
-  intro x hx
-  simp only [forbI, Finset.mem_insert, Finset.mem_singleton] at hx
-  rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
+theorem forbI_max : ∀ x ∈ forbI, x ≤ 29 := by decide
 
 /-- 29 ∈ Forb(I). -/
 theorem forbI_contains_29 : 29 ∈ forbI := by decide

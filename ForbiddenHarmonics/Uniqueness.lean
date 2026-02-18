@@ -36,15 +36,15 @@ def satI : SaturationData := ⟨15, 15, by norm_num⟩
 
 /-- sat(I) = 1: the forbidden count equals the Molien exponent. -/
 theorem satI_is_one : satI.forbCount = satI.molienExp := by
-  simp [satI]
+  simp only [satI]
 
 /-- sat(T) < 1: 3 < 6. -/
 theorem satT_lt_one : satT.forbCount < satT.molienExp := by
-  simp [satT]
+  simp only [satT]
 
 /-- sat(O) < 1: 6 < 9. -/
 theorem satO_lt_one : satO.forbCount < satO.molienExp := by
-  simp [satO]
+  simp only [satO]
 
 /-! ## The Uniqueness Equation
 

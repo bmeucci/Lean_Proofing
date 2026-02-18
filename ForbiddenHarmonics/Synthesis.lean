@@ -94,7 +94,8 @@ theorem chain_klein :
     kleinDeg1 = 2 * icosahedralData.d₁ ∧
     kleinDeg2 = 2 * icosahedralData.d₂ ∧
     kleinDeg3 = 2 * icosahedralData.molienExp := by
-  simp [binaryIcosahedralOrder, kleinDeg1, kleinDeg2, kleinDeg3, icosahedralData]
+  simp only [binaryIcosahedralOrder, kleinDeg1, kleinDeg2, kleinDeg3,
+    icosahedralData]
 
 /-- Chain link 8: Modular form dimensions controlled below ceiling. -/
 theorem chain_dimensions :

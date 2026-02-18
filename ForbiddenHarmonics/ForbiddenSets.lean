@@ -276,6 +276,7 @@ theorem universal_prime_coverage (p : ℕ) (hp : Nat.Prime p) :
     ∃ n : ℕ, n ≥ 3 ∧ n % 2 = 1 ∧ p < n * n := by
   -- We need odd n ≥ 3 with p < n². Choose n = 2*p + 1 (always odd, ≥ 3 for prime p).
   use 2 * p + 1
-  constructor
+  refine ⟨?_, ?_, ?_⟩
   · have := hp.two_le; omega
+  · omega
   · nlinarith [hp.one_le]

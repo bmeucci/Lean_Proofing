@@ -60,10 +60,7 @@ theorem qr_7_mod_29 : 6 * 6 % 29 = 7 := by norm_num
 def ss_roots_29 : Finset ℕ := {0, 2, 25}
 
 /-- All three roots lie in F₂₉ (i.e., are < 29). -/
-theorem ss_roots_29_in_field : ∀ r ∈ ss_roots_29, r < 29 := by
-  intro r hr
-  simp [ss_roots_29] at hr
-  rcases hr with rfl | rfl | rfl <;> norm_num
+theorem ss_roots_29_in_field : ∀ r ∈ ss_roots_29, r < 29 := by decide
 
 /-- Verification: r = 0 satisfies j(j² + 2j + 21) ≡ 0 (mod 29). -/
 theorem ss_root_0_check : 0 * (0^2 + 2 * 0 + 21) % 29 = 0 := by norm_num
@@ -122,8 +119,10 @@ theorem ssp_le29_in_forbI_primes :
   intro p hp hle
   revert hle
   simp only [sspList, Finset.mem_insert, Finset.mem_singleton] at hp
-  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-    (intro hle; simp [forbI_primes]; omega)
+  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl |
+    rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
+    (intro hle; simp only [forbI_primes, Finset.mem_insert,
+      Finset.mem_singleton]; omega)
 
 /-! ## Dimension Threshold = Molien Ceiling
 
