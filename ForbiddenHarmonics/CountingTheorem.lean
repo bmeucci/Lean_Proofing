@@ -78,4 +78,5 @@ theorem icosahedral_ab_quarter : 3 * 5 = 60 / 4 := by norm_num
     This proves |Forb(G)| = |G|/4 for all parity-walled 3D groups. -/
 theorem gcd2_counting_identity (a b : ℕ) (ha : a ≥ 1) (hb : b ≥ 1) :
     (a - 1) * (b - 1) + (a + b - 1) = a * b := by
-  zify [ha, hb]; ring
+  have hab : 1 ≤ a + b := by omega
+  zify [ha, hb, hab]; ring
