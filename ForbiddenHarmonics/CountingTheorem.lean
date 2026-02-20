@@ -16,13 +16,13 @@ import ForbiddenHarmonics.ForbiddenSets
 /-! ## The |G|/4 Formula -/
 
 /-- **Theorem 3**: |Forb(T)| = |T|/4. -/
-theorem g4_formula_T : forbT.card = 12 / 4 := by decide
+theorem g4_formula_T : forbT.card = 12 / 4 := forbT_quarter_order
 
 /-- **Theorem 3**: |Forb(O)| = |O|/4. -/
-theorem g4_formula_O : forbO.card = 24 / 4 := by decide
+theorem g4_formula_O : forbO.card = 24 / 4 := forbO_quarter_order
 
 /-- **Theorem 3**: |Forb(I)| = |I|/4. -/
-theorem g4_formula_I : forbI.card = 60 / 4 := by decide
+theorem g4_formula_I : forbI.card = 60 / 4 := forbI_quarter_order
 
 /-! ## Case 1: gcd(d₁,d₂) = 1 (Tetrahedral)
 
@@ -37,7 +37,7 @@ theorem tetrahedral_sylvester :
 
 /-- The gaps of ⟨3,4⟩ are exactly Forb(T). -/
 theorem tetrahedral_gaps_eq_forb :
-    gaps_3_4 = forbT := by decide
+    gaps_3_4 = forbT := by rw [forbT_eq_explicit]; decide
 
 /-! ## Case 2: gcd(d₁,d₂) = 2 (Octahedral and Icosahedral)
 

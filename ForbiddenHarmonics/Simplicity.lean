@@ -87,7 +87,7 @@ theorem simplicity_saturation_coincidence :
     -- A₅ (order 60) is simple; A₄ (order 12) and S₄ (order 24) are not
     (4 ∣ 12) ∧ ¬(4 ∣ 12 ∧ 12 = 60) ∧
     (12 ∣ 24) ∧ ¬(12 ∣ 24 ∧ 24 = 60) := by
-  refine ⟨by decide, by decide, by decide, by norm_num, by norm_num,
+  refine ⟨by native_decide, by native_decide, by native_decide, by norm_num, by norm_num,
     by norm_num, by norm_num⟩
 
 /-! ## Corollary 4: Overdetermined Uniqueness
@@ -123,4 +123,4 @@ theorem overdetermined_uniqueness :
     icosahedralData.d₂ / 2 = 5 ∧
     -- (d) Unique saturation-1 group
     forbI.card = icosahedralData.molienExp := by
-  refine ⟨by decide, by norm_num, by norm_num, by decide, by decide⟩
+  refine ⟨by decide, by norm_num, by norm_num, by decide, by native_decide⟩

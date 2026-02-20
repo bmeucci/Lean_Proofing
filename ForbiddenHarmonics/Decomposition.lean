@@ -52,7 +52,7 @@ theorem decomp_disjoint_eg_pt : Disjoint evenGapsDecomp_I postThresholdDecomp_I 
 /-- The union of all three components equals Forb(I). -/
 theorem decomp_union_eq_forbI :
     parityWall_I ∪ evenGapsDecomp_I ∪ postThresholdDecomp_I = forbI := by
-  decide
+  rw [forbI_eq_explicit]; decide
 
 /-! ## Parity Wall Analysis -/
 
@@ -100,7 +100,7 @@ def iUniquePrimes : Finset ℕ := {13, 17, 19, 23, 29}
 
 /-- The I-unique primes are exactly those in Forb(I) but not in Forb(O). -/
 theorem iUnique_sdiff : forbI \ forbO = {4, 8, 9, 13, 14, 17, 19, 23, 29} := by
-  decide
+  rw [forbI_eq_explicit, forbO_eq_explicit]; decide
 
 /-- The 4 post-threshold I-unique primes are exactly N + 2 × gaps(⟨3,5⟩). -/
 theorem iUnique_postThreshold :
@@ -109,10 +109,12 @@ theorem iUnique_postThreshold :
 /-! ## Proposition 7: Forbidden Ceiling -/
 
 /-- The largest element of Forb(I) is 29. -/
-theorem forbI_max : ∀ x ∈ forbI, x ≤ 29 := by decide
+theorem forbI_max : ∀ x ∈ forbI, x ≤ 29 := by
+  rw [forbI_eq_explicit]; decide
 
 /-- 29 ∈ Forb(I). -/
-theorem forbI_contains_29 : 29 ∈ forbI := by decide
+theorem forbI_contains_29 : 29 ∈ forbI := by
+  rw [forbI_eq_explicit]; decide
 
 /-- **Proposition 7**: The forbidden ceiling 29 = N + 2·F(3,5) = 15 + 14. -/
 theorem forbidden_ceiling_formula : 15 + 2 * 7 = 29 := by norm_num

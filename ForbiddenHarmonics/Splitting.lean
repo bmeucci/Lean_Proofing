@@ -107,16 +107,16 @@ theorem denseSSP_card : denseSSP.card = 10 := by decide
 
 /-- The dense SSP equals the prime forbidden icosahedral degrees. -/
 theorem denseSSP_eq_forbI_primes : denseSSP = forbI_primes := by
-  decide
+  rw [forbI_primes_eq_explicit]; native_decide
 
 /-- Every prime forbidden degree of I is a supersingular prime. -/
 theorem forbI_primes_subset_ssp : forbI_primes ⊆ sspList := by
-  decide
+  rw [forbI_primes_eq_explicit]; decide
 
 /-- Every SSP ≤ 29 is a forbidden icosahedral degree. -/
 theorem ssp_le29_in_forbI_primes :
     ∀ p ∈ sspList, p ≤ 29 → p ∈ forbI_primes := by
-  decide
+  rw [forbI_primes_eq_explicit]; decide
 
 /-! ## Dimension Threshold = Molien Ceiling
 
@@ -130,11 +130,13 @@ theorem ssp_le29_in_forbI_primes :
 theorem ceiling_is_largest_forb_prime :
     29 ∈ forbI_primes ∧ ∀ p ∈ forbI_primes, p ≤ 29 := by
   constructor
-  · decide
+  · rw [forbI_primes_eq_explicit]; decide
   · intro p hp
-    simp only [forbI_primes, Finset.mem_insert, Finset.mem_singleton] at hp
+    rw [forbI_primes_eq_explicit] at hp
+    simp only [Finset.mem_insert, Finset.mem_singleton] at hp
     rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> norm_num
 
 /-- p = 31 is still SSP but NOT in Forb(I) (31 > 29 = ceiling). -/
 theorem p31_ssp_not_forb : 31 ∈ sspList ∧ 31 ∉ forbI := by
-  exact ⟨by decide, by decide⟩
+  refine ⟨by decide, ?_⟩
+  rw [forbI_eq_explicit]; decide

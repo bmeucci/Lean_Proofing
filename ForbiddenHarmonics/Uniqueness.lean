@@ -154,4 +154,4 @@ theorem icosahedral_unique_saturation :
     forbI.card = icosahedralData.molienExp ∧
     forbT.card < tetrahedralData.molienExp ∧
     forbO.card < octahedralData.molienExp := by
-  exact ⟨by decide, by decide, by decide⟩
+  exact ⟨by native_decide, by native_decide, by native_decide⟩
