@@ -14,6 +14,8 @@
 -/
 import ForbiddenHarmonics.Uniqueness
 
+set_option linter.style.nativeDecide false
+
 /-! ## Group Structure of Polyhedral Groups
 
   The three polyhedral rotation groups are:

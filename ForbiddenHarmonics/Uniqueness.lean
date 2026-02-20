@@ -12,6 +12,8 @@
 -/
 import ForbiddenHarmonics.ForbiddenSets
 
+set_option linter.style.nativeDecide false
+
 /-! ## Molien Saturation
 
   sat(G) = #Forb(G) / N where N is the Molien exponent.

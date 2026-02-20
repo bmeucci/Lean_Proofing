@@ -20,6 +20,10 @@
 import ForbiddenHarmonics.MolienSeries
 import ForbiddenHarmonics.NumericalSemigroup
 
+-- native_decide is appropriate here: the computed finset definitions make
+-- kernel-only `decide` prohibitively slow, and this is not a mathlib contribution.
+set_option linter.style.nativeDecide false
+
 /-! ## General Forbidden Set Computation
 
   For harmonic data (d₁, d₂, N), the forbidden set is finite.

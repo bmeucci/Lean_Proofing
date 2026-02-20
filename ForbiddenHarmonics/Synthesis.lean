@@ -30,6 +30,8 @@ import ForbiddenHarmonics.KleinBridge
 import ForbiddenHarmonics.ModularForms
 import ForbiddenHarmonics.Splitting
 
+set_option linter.style.nativeDecide false
+
 /-! ## The Complete Chain
 
   The paper's argument flows as follows:

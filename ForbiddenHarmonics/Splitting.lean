@@ -13,6 +13,8 @@
 import ForbiddenHarmonics.ModularForms
 import ForbiddenHarmonics.ForbiddenSets
 
+set_option linter.style.nativeDecide false
+
 /-! ## Proposition 10: Constraint-Saturation Splitting
 
   When dim M_{p-1} ≤ 3, the icosahedral equation f⁵ + T² + cH³ = 0
