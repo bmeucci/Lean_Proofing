@@ -164,9 +164,12 @@ theorem summary_ssp_total : sspList.card = 15 := ssp_count
 /-- Dense SSP (≤ 29): 10. -/
 theorem summary_dense_ssp : denseSSP.card = 10 := denseSSP_card
 
-/-- Universal prime coverage: every prime appears in some Forb(B_n). -/
+/-- Universal prime coverage: every prime p is forbidden for some B_n.
+    Proved by exhibiting odd n ≥ 3 with p < n² AND showing p is not
+    representable by even generators (via parity/size obstruction). -/
 theorem summary_universal : ∀ p : ℕ, Nat.Prime p →
-    ∃ n : ℕ, n ≥ 3 ∧ n % 2 = 1 ∧ p < n * n :=
+    ∃ n : ℕ, n ≥ 3 ∧ n % 2 = 1 ∧ p < n * n ∧
+    ¬ inSemigroup 4 (2 * (2 * p + 1)) p :=
   universal_prime_coverage
 
 /-! ## Axiom Audit

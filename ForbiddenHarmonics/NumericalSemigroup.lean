@@ -53,6 +53,37 @@ instance decidableInSemigroup (a b n : ℕ) : Decidable (inSemigroup a b n) := b
 /-- A gap of ⟨a,b⟩ is a natural number not representable. -/
 def isGap (a b n : ℕ) : Prop := ¬ inSemigroup a b n
 
+/-! ## Parity Obstruction for Even-Generator Semigroups
+
+  If both generators a and b are even, then every element of ⟨a,b⟩ is even.
+  This is the key lemma for proving every odd prime is a forbidden harmonic:
+  odd numbers cannot be represented by even generators.
+-/
+
+/-- Any element of ⟨a,b⟩ with both generators even is itself even.
+    Since a*x + b*y with a,b even is always even, no odd number is representable. -/
+theorem even_generators_even_elements (a b n : ℕ)
+    (ha : a % 2 = 0) (hb : b % 2 = 0) (hn : inSemigroup a b n) :
+    n % 2 = 0 := by
+  obtain ⟨x, y, rfl⟩ := hn
+  omega
+
+/-- Contrapositive: odd numbers are gaps of any even-generator semigroup. -/
+theorem odd_is_gap_of_even_generators (a b n : ℕ)
+    (ha : a % 2 = 0) (hb : b % 2 = 0) (hodd : n % 2 = 1) :
+    isGap a b n := by
+  intro hn
+  have := even_generators_even_elements a b n ha hb hn
+  omega
+
+/-- Any element of ⟨a,b⟩ with a ≥ k and b ≥ k satisfies n = 0 or n ≥ k.
+    In particular, positive n < k are gaps. -/
+theorem small_is_gap_of_large_generators (a b n : ℕ)
+    (ha : a ≥ 4) (hb : b ≥ 4) (hn_pos : 0 < n) (hn_small : n < 4) :
+    isGap a b n := by
+  intro ⟨x, y, heq⟩
+  nlinarith [Nat.zero_le x, Nat.zero_le y]
+
 /-! ## Frobenius Number
 
   For coprime a, b ≥ 2, the Frobenius number F(a,b) = ab - a - b

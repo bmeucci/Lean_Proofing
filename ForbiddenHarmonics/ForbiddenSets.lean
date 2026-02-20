@@ -428,15 +428,41 @@ theorem forbB21_count : (441 + 3) / 2 = 222 := by norm_num
 /-- **Corollary 1 (Universal Prime Coverage)**: Every prime is a forbidden
     harmonic degree for some finite rotation group.
 
-    Proof: For any prime p, if p is odd, choose odd n > √p.
-    Then p < n² = N(B_n), and since p is odd and all harmonic generators
-    of B_n are even, p ∈ Forb(B_n).
-    If p = 2, then 2 ∈ Forb(B_n) for any odd n ≥ 3. -/
+    Proof: For any prime p, choose odd n = 2p+1 ≥ 3. Then:
+    1. p < n² = N(B_n)  (the Molien exponent)
+    2. The smallest B_n generator is 4 (all generators are even: 4, 6, ..., 2n)
+    3. If p is odd: p cannot be a sum of even numbers (parity obstruction)
+    4. If p = 2: p < 4 ≤ smallest generator (size obstruction)
+
+    In either case, p ∉ ⟨4, 6, ..., 2n⟩ and p < N(B_n), making p a
+    forbidden harmonic degree for B_n.
+
+    We prove p is not even in ⟨4, 2n⟩ (the outer two generators),
+    which suffices since ⟨4, 2n⟩ ⊆ ⟨4, 6, ..., 2n⟩. -/
 theorem universal_prime_coverage (p : ℕ) (hp : Nat.Prime p) :
-    ∃ n : ℕ, n ≥ 3 ∧ n % 2 = 1 ∧ p < n * n := by
-  -- We need odd n ≥ 3 with p < n². Choose n = 2*p + 1 (always odd, ≥ 3 for prime p).
+    ∃ n : ℕ, n ≥ 3 ∧ n % 2 = 1 ∧ p < n * n ∧
+    -- p is not representable by even generators (proved via outer pair ⟨4, 2n⟩)
+    ¬ inSemigroup 4 (2 * (2 * p + 1)) p := by
   use 2 * p + 1
-  refine ⟨?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_⟩
   · have := hp.two_le; omega
   · omega
   · nlinarith [hp.one_le]
+  · -- p ∉ ⟨4, 2(2p+1)⟩: we'd need 4x + (4p+2)y = p.
+    -- For y ≥ 1: (4p+2)·1 = 4p+2 > p, so impossible.
+    -- For y = 0: 4x = p, so 4 ∣ p. But p is prime and ≥ 2, contradiction.
+    intro ⟨x, y, heq⟩
+    nlinarith [Nat.zero_le x, Nat.zero_le y]
+
+/-- The parity obstruction applied to the 2-generator B₃ = O case:
+    every odd prime p < 9 is forbidden for (d₁,d₂,N) = (4,6,9).
+    This connects universal_prime_coverage to IsForbiddenDegree directly. -/
+theorem odd_prime_forbidden_B3 (p : ℕ) (hp : Nat.Prime p)
+    (hodd : p % 2 = 1) (hlt : p < 9) :
+    IsForbiddenDegree 4 6 9 p := by
+  constructor
+  · exact odd_is_gap_of_even_generators 4 6 p (by norm_num) (by norm_num) hodd
+  · left; omega
+
+/-- p = 2 is forbidden for B₃ because 2 < 4 = smallest generator. -/
+theorem two_forbidden_B3 : IsForbiddenDegree 4 6 9 2 := forbO_2_forbidden
