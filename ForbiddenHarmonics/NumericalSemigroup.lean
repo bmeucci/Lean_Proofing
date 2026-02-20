@@ -66,6 +66,9 @@ theorem even_generators_even_elements (a b n : ℕ)
     (ha : a % 2 = 0) (hb : b % 2 = 0) (hn : inSemigroup a b n) :
     n % 2 = 0 := by
   obtain ⟨x, y, rfl⟩ := hn
+  -- a = 2a', b = 2b', so a*x + b*y = 2(a'*x + b'*y)
+  obtain ⟨a', rfl⟩ : 2 ∣ a := Nat.dvd_of_mod_eq_zero ha
+  obtain ⟨b', rfl⟩ : 2 ∣ b := Nat.dvd_of_mod_eq_zero hb
   omega
 
 /-- Contrapositive: odd numbers are gaps of any even-generator semigroup. -/
@@ -76,13 +79,23 @@ theorem odd_is_gap_of_even_generators (a b n : ℕ)
   have := even_generators_even_elements a b n ha hb hn
   omega
 
-/-- Any element of ⟨a,b⟩ with a ≥ k and b ≥ k satisfies n = 0 or n ≥ k.
-    In particular, positive n < k are gaps. -/
+/-- Any element of ⟨a,b⟩ with a ≥ 4 and b ≥ 4 satisfies n = 0 or n ≥ 4.
+    In particular, 0 < n < 4 are gaps. -/
 theorem small_is_gap_of_large_generators (a b n : ℕ)
     (ha : a ≥ 4) (hb : b ≥ 4) (hn_pos : 0 < n) (hn_small : n < 4) :
     isGap a b n := by
   intro ⟨x, y, heq⟩
-  nlinarith [Nat.zero_le x, Nat.zero_le y]
+  -- n = a*x + b*y with a ≥ 4, b ≥ 4. If x ≥ 1 then a*x ≥ 4 > n. Same for y.
+  -- So x = 0 and y = 0, giving n = 0, contradicting hn_pos.
+  have hx0 : x = 0 := by
+    by_contra hx; have : x ≥ 1 := by omega
+    have : a * x ≥ 4 := by nlinarith
+    omega
+  have hy0 : y = 0 := by
+    by_contra hy; have : y ≥ 1 := by omega
+    have : b * y ≥ 4 := by nlinarith
+    omega
+  omega
 
 /-! ## Frobenius Number
 
