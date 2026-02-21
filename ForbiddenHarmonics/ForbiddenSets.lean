@@ -452,12 +452,26 @@ theorem universal_prime_coverage (p : ℕ) (hp : Nat.Prime p) :
     -- For y ≥ 1: (4p+2)·1 = 4p+2 > p, so impossible.
     -- For y = 0: 4x = p, so 4 ∣ p. But p is prime and ≥ 2, contradiction.
     intro ⟨x, y, heq⟩
-    nlinarith [Nat.zero_le x, Nat.zero_le y]
+    -- First show y = 0 (if y ≥ 1 then RHS ≥ 4p+2 > p)
+    have hy0 : y = 0 := by
+      by_contra hy
+      have hy1 : y ≥ 1 := by omega
+      have h1 := Nat.mul_le_mul_left (2 * (2 * p + 1)) hy1
+      have h2 : 2 * (2 * p + 1) * 1 = 2 * (2 * p + 1) := mul_one _
+      -- h1 : 2*(2*p+1)*1 ≤ 2*(2*p+1)*y, h2 simplifies LHS
+      -- So 2*(2*p+1)*y ≥ 2*(2*p+1) = 4*p+2, and p = 4*x + that ≥ 4*p+2
+      linarith [Nat.zero_le x]
+    -- Now y = 0, so p = 4*x, contradicting primality
+    subst hy0; simp at heq
+    have h4 : 4 ∣ p := ⟨x, heq⟩
+    rcases hp.eq_one_or_self_of_dvd 4 h4 with h | h
+    · omega
+    · subst h; norm_num at hp
 
 /-- The parity obstruction applied to the 2-generator B₃ = O case:
     every odd prime p < 9 is forbidden for (d₁,d₂,N) = (4,6,9).
     This connects universal_prime_coverage to IsForbiddenDegree directly. -/
-theorem odd_prime_forbidden_B3 (p : ℕ) (hp : Nat.Prime p)
+theorem odd_prime_forbidden_B3 (p : ℕ) (_ : Nat.Prime p)
     (hodd : p % 2 = 1) (hlt : p < 9) :
     IsForbiddenDegree 4 6 9 p := by
   constructor
