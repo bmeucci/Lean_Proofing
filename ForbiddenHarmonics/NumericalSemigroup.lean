@@ -92,16 +92,15 @@ theorem small_is_gap_of_large_generators (a b n : ℕ)
   have hx0 : x = 0 := by
     by_contra hx
     have hx1 : x ≥ 1 := by omega
-    have h1 : a * x ≥ a * 1 := Nat.mul_le_mul_left a hx1
-    rw [mul_one] at h1
-    -- Now h1 : a * x ≥ a, and ha : a ≥ 4, heq : n = a*x + b*y, hn_small : n < 4
-    linarith
+    have h1 : a * 1 ≤ a * x := Nat.mul_le_mul_left a hx1
+    have h2 : a * 1 = a := mul_one a
+    linarith [Nat.zero_le (b * y)]
   have hy0 : y = 0 := by
     by_contra hy
     have hy1 : y ≥ 1 := by omega
-    have h1 : b * y ≥ b * 1 := Nat.mul_le_mul_left b hy1
-    rw [mul_one] at h1
-    linarith
+    have h1 : b * 1 ≤ b * y := Nat.mul_le_mul_left b hy1
+    have h2 : b * 1 = b := mul_one b
+    linarith [Nat.zero_le (a * x)]
   subst hx0; subst hy0; simp at heq; omega
 
 /-! ## Frobenius Number
