@@ -88,7 +88,7 @@ theorem single_stellation_amplification (ℓ : ℕ) :
 /-- Four stellations amplify degree ℓ by φ^{8ℓ} (total amplification for the loop). -/
 theorem four_stellation_amplification (ℓ : ℕ) :
     harmonicAmplification 4 ℓ = φ ^ (8 * ℓ) := by
-  simp [harmonicAmplification]; ring_nf
+  simp [harmonicAmplification]
 
 /-- At degree ℓ=0: amplification is 1 (scalars are unchanged). -/
 theorem amplification_degree_zero (n : ℕ) :
@@ -104,7 +104,7 @@ theorem amplification_degree_one_four_stell :
 /-- At degree ℓ=6 (Poole's first icosahedral harmonic), four stellations amplify by φ⁴⁸. -/
 theorem amplification_degree_six_four_stell :
     harmonicAmplification 4 6 = φ ^ 48 := by
-  simp [harmonicAmplification]; norm_num
+  simp [harmonicAmplification]
 
 /-- The amplification is always positive. -/
 theorem harmonicAmplification_pos (n ℓ : ℕ) : harmonicAmplification n ℓ > 0 :=
@@ -114,9 +114,9 @@ theorem harmonicAmplification_pos (n ℓ : ℕ) : harmonicAmplification n ℓ > 
 theorem harmonicAmplification_gt_one (n ℓ : ℕ) (hn : 0 < n) (hℓ : 0 < ℓ) :
     harmonicAmplification n ℓ > 1 := by
   unfold harmonicAmplification
-  apply one_lt_pow_iff_of_nonneg (le_of_lt φ_pos) |>.mpr
-  · exact φ_gt_one
-  · omega
+  have hpos : 0 < 2 * n * ℓ := Nat.mul_pos (Nat.mul_pos (by norm_num) hn) hℓ
+  have hne : 2 * n * ℓ ≠ 0 := Nat.pos_iff_ne_zero.mp hpos
+  exact (one_lt_pow_iff_of_nonneg (le_of_lt φ_pos) hne).mpr φ_gt_one
 
 /-! ## Why Exactly Four Stellations (Theorem 5.1, Remark 5.2)
 
@@ -198,10 +198,11 @@ theorem belt_width_fraction_pos : beltWidthFraction > 0 :=
 /-- The belt width fraction is less than 1 (much less: ≈ 0.0213). -/
 theorem belt_width_fraction_lt_one : beltWidthFraction < 1 := by
   unfold beltWidthFraction
-  have h := belt_identity
-  have h8 := φ_pow8
-  have hφ_pos := φ_pos
-  nlinarith [pow_pos φ_pos 8, φ_gt_one,
-             pow_lt_pow_right₀ φ_gt_one (show 0 < 8 from by omega)]
+  -- φ⁻¹^8 = (φ^8)⁻¹ < 1 because φ^8 = 21φ+13 > 1
+  have hφ8_gt_one : 1 < φ ^ 8 := by rw [φ_pow8]; linarith [φ_gt_one]
+  have hφinv8_pos : (0 : ℝ) < φ⁻¹ ^ 8 := pow_pos (inv_pos.mpr φ_pos) 8
+  have hmul : φ⁻¹ ^ 8 * φ ^ 8 = 1 := by
+    rw [← mul_pow, inv_mul_cancel₀ (ne_of_gt φ_pos), one_pow]
+  linarith [mul_lt_mul_of_pos_left hφ8_gt_one hφinv8_pos, mul_one (φ⁻¹ ^ 8)]
 
 end

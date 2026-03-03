@@ -48,16 +48,86 @@ theorem lucas_recurrence (n : ℕ) :
     This is the fundamental case of the general closure theorem (ℓ=1). -/
 @[simp] theorem lucas_eight : lucasNumber 8 = 47 := rfl
 
+-- Intermediate values proved by explicit recurrence chains (avoids native_decide)
+private lemma lrec (n : ℕ) : lucasNumber (n+2) = lucasNumber (n+1) + lucasNumber n := rfl
+
 /-- L(16) = 2207. This is the ℓ=2 case: φ^16 + φ^{-16} = 2207. -/
-theorem lucas_sixteen : lucasNumber 16 = 2207 := by native_decide
+theorem lucas_sixteen : lucasNumber 16 = 2207 := by
+  have h7  := lucas_seven; have h8 := lucas_eight
+  have h9  : lucasNumber 9  = 76   := by linarith [lrec 7]
+  have h10 : lucasNumber 10 = 123  := by linarith [lrec 8]
+  have h11 : lucasNumber 11 = 199  := by linarith [lrec 9]
+  have h12 : lucasNumber 12 = 322  := by linarith [lrec 10]
+  have h13 : lucasNumber 13 = 521  := by linarith [lrec 11]
+  have h14 : lucasNumber 14 = 843  := by linarith [lrec 12]
+  have h15 : lucasNumber 15 = 1364 := by linarith [lrec 13]
+  linarith [lrec 14]
 
 /-- L(24) = 103682. This is the ℓ=3 case: φ^24 + φ^{-24} = 103682. -/
-theorem lucas_twentyfour : lucasNumber 24 = 103682 := by native_decide
+theorem lucas_twentyfour : lucasNumber 24 = 103682 := by
+  have h7  := lucas_seven; have h8 := lucas_eight
+  have h9  : lucasNumber 9  = 76    := by linarith [lrec 7]
+  have h10 : lucasNumber 10 = 123   := by linarith [lrec 8]
+  have h11 : lucasNumber 11 = 199   := by linarith [lrec 9]
+  have h12 : lucasNumber 12 = 322   := by linarith [lrec 10]
+  have h13 : lucasNumber 13 = 521   := by linarith [lrec 11]
+  have h14 : lucasNumber 14 = 843   := by linarith [lrec 12]
+  have h15 : lucasNumber 15 = 1364  := by linarith [lrec 13]
+  have h16 : lucasNumber 16 = 2207  := by linarith [lrec 14]
+  have h17 : lucasNumber 17 = 3571  := by linarith [lrec 15]
+  have h18 : lucasNumber 18 = 5778  := by linarith [lrec 16]
+  have h19 : lucasNumber 19 = 9349  := by linarith [lrec 17]
+  have h20 : lucasNumber 20 = 15127 := by linarith [lrec 18]
+  have h21 : lucasNumber 21 = 24476 := by linarith [lrec 19]
+  have h22 : lucasNumber 22 = 39603 := by linarith [lrec 20]
+  have h23 : lucasNumber 23 = 64079 := by linarith [lrec 21]
+  linarith [lrec 22]
 
 /-- L(48) = 10749957122. The ℓ=6 case: φ^48 + φ^{-48} = L(48).
     Degree 48 is significant: ℓ=6 is the first non-trivial icosahedral harmonic
     degree (Poole's invariant P, Section 7 of the paper). -/
-theorem lucas_fortyeight : lucasNumber 48 = 10749957122 := by native_decide
+theorem lucas_fortyeight : lucasNumber 48 = 10749957122 := by
+  have h7  := lucas_seven; have h8 := lucas_eight
+  have h9  : lucasNumber 9  = 76         := by linarith [lrec 7]
+  have h10 : lucasNumber 10 = 123        := by linarith [lrec 8]
+  have h11 : lucasNumber 11 = 199        := by linarith [lrec 9]
+  have h12 : lucasNumber 12 = 322        := by linarith [lrec 10]
+  have h13 : lucasNumber 13 = 521        := by linarith [lrec 11]
+  have h14 : lucasNumber 14 = 843        := by linarith [lrec 12]
+  have h15 : lucasNumber 15 = 1364       := by linarith [lrec 13]
+  have h16 : lucasNumber 16 = 2207       := by linarith [lrec 14]
+  have h17 : lucasNumber 17 = 3571       := by linarith [lrec 15]
+  have h18 : lucasNumber 18 = 5778       := by linarith [lrec 16]
+  have h19 : lucasNumber 19 = 9349       := by linarith [lrec 17]
+  have h20 : lucasNumber 20 = 15127      := by linarith [lrec 18]
+  have h21 : lucasNumber 21 = 24476      := by linarith [lrec 19]
+  have h22 : lucasNumber 22 = 39603      := by linarith [lrec 20]
+  have h23 : lucasNumber 23 = 64079      := by linarith [lrec 21]
+  have h24 : lucasNumber 24 = 103682     := by linarith [lrec 22]
+  have h25 : lucasNumber 25 = 167761     := by linarith [lrec 23]
+  have h26 : lucasNumber 26 = 271443     := by linarith [lrec 24]
+  have h27 : lucasNumber 27 = 439204     := by linarith [lrec 25]
+  have h28 : lucasNumber 28 = 710647     := by linarith [lrec 26]
+  have h29 : lucasNumber 29 = 1149851    := by linarith [lrec 27]
+  have h30 : lucasNumber 30 = 1860498    := by linarith [lrec 28]
+  have h31 : lucasNumber 31 = 3010349    := by linarith [lrec 29]
+  have h32 : lucasNumber 32 = 4870847    := by linarith [lrec 30]
+  have h33 : lucasNumber 33 = 7881196    := by linarith [lrec 31]
+  have h34 : lucasNumber 34 = 12752043   := by linarith [lrec 32]
+  have h35 : lucasNumber 35 = 20633239   := by linarith [lrec 33]
+  have h36 : lucasNumber 36 = 33385282   := by linarith [lrec 34]
+  have h37 : lucasNumber 37 = 54018521   := by linarith [lrec 35]
+  have h38 : lucasNumber 38 = 87403803   := by linarith [lrec 36]
+  have h39 : lucasNumber 39 = 141422324  := by linarith [lrec 37]
+  have h40 : lucasNumber 40 = 228826127  := by linarith [lrec 38]
+  have h41 : lucasNumber 41 = 370248451  := by linarith [lrec 39]
+  have h42 : lucasNumber 42 = 599074578  := by linarith [lrec 40]
+  have h43 : lucasNumber 43 = 969323029  := by linarith [lrec 41]
+  have h44 : lucasNumber 44 = 1568397607 := by linarith [lrec 42]
+  have h45 : lucasNumber 45 = 2537720636 := by linarith [lrec 43]
+  have h46 : lucasNumber 46 = 4106118243 := by linarith [lrec 44]
+  have h47 : lucasNumber 47 = 6643838879 := by linarith [lrec 45]
+  linarith [lrec 46]
 
 /-! ## Connection to the Golden Ratio -/
 
@@ -82,7 +152,7 @@ theorem phi_pow_add_psi_pow (n : ℕ) : φ ^ n + ψ ^ n = (lucasNumber n : ℝ) 
   | zero =>
     constructor
     · -- φ⁰ + ψ⁰ = 2 = L(0)
-      simp [lucasNumber]
+      simp [lucasNumber]; norm_num
     · -- φ¹ + ψ¹ = 1 = L(1)
       simp [lucasNumber]
       have := φ_add_ψ
@@ -103,10 +173,8 @@ theorem phi_pow_add_psi_pow (n : ℕ) : φ ^ n + ψ ^ n = (lucasNumber n : ℝ) 
 /-- For even exponents, ψⁿ = φ⁻ⁿ.
     Since φ·ψ = -1 we have ψ = -φ⁻¹, so ψⁿ = (-1)ⁿ φ⁻ⁿ = φ⁻ⁿ when n is even. -/
 theorem psi_pow_even_eq_phi_inv_pow (n : ℕ) : ψ ^ (2*n) = φ⁻¹ ^ (2*n) := by
-  have h : ψ = -φ⁻¹ := by
-    have := φ_inv_eq_neg_ψ
-    linarith [φ_inv_eq_neg_ψ]
-  rw [h, neg_pow, even_two_mul, if_pos ⟨n, rfl⟩, one_mul]
+  have h : ψ = -φ⁻¹ := by linarith [φ_inv_eq_neg_ψ]
+  rw [h, neg_pow, show (-1 : ℝ) ^ (2 * n) = 1 from by rw [pow_mul]; norm_num, one_mul]
 
 /-! ## The General Algebraic Closure Theorem -/
 
@@ -119,8 +187,8 @@ theorem general_algebraic_closure (ℓ : ℕ) :
     φ ^ (8*ℓ) + φ⁻¹ ^ (8*ℓ) = (lucasNumber (8*ℓ) : ℝ) := by
   -- Step 1: φ⁻¹^{8ℓ} = ψ^{8ℓ} (since 8ℓ is even)
   have h_inv : φ⁻¹ ^ (8*ℓ) = ψ ^ (8*ℓ) := by
-    rw [φ_inv_eq_neg_ψ, neg_pow]
-    simp [Even, ⟨4*ℓ, by ring⟩]
+    rw [φ_inv_eq_neg_ψ, neg_pow, show (-1 : ℝ) ^ (8 * ℓ) = 1 from by
+      rw [pow_mul]; norm_num, one_mul]
   rw [h_inv]
   -- Step 2: φ^{8ℓ} + ψ^{8ℓ} = L(8ℓ)
   exact phi_pow_add_psi_pow (8*ℓ)
@@ -129,21 +197,24 @@ theorem general_algebraic_closure (ℓ : ℕ) :
 theorem general_closure_ell_one :
     φ ^ 8 + φ⁻¹ ^ 8 = (47 : ℝ) := by
   have h := general_algebraic_closure 1
-  simp at h
+  have : (8 : ℕ) * 1 = 8 := by norm_num
+  rw [this, lucas_eight] at h
   exact_mod_cast h
 
 /-- The ℓ=2 case: φ^16 + φ^{-16} = 2207. -/
 theorem general_closure_ell_two :
     φ ^ 16 + φ⁻¹ ^ 16 = (2207 : ℝ) := by
   have h := general_algebraic_closure 2
-  simp [lucas_sixteen] at h
+  have : (8 : ℕ) * 2 = 16 := by norm_num
+  rw [this, lucas_sixteen] at h
   exact_mod_cast h
 
 /-- The ℓ=6 case: φ^48 + φ^{-48} = L(48), the first icosahedral harmonic degree. -/
 theorem general_closure_ell_six :
     φ ^ 48 + φ⁻¹ ^ 48 = (10749957122 : ℝ) := by
   have h := general_algebraic_closure 6
-  simp [lucas_fortyeight] at h
+  have : (8 : ℕ) * 6 = 48 := by norm_num
+  rw [this, lucas_fortyeight] at h
   exact_mod_cast h
 
 /-! ## Self-Similar Phase Structure (Proposition 3.1) -/
@@ -168,11 +239,11 @@ theorem self_similar_phase (n : ℕ) : (1 - φ⁻¹ ^ n) * φ ^ n = φ ^ n - 1 :
     Concretely at n=8: the ratio {φ⁸}/φ⁻⁸ = φ⁸ - 1 ≈ 45.978. -/
 theorem self_similar_ratio (n : ℕ) (hn : 0 < n) :
     (φ ^ n - 1) / φ⁻¹ ^ n = φ ^ (2*n) - φ ^ n := by
-  have hpow_pos : 0 < φ⁻¹ ^ n := pow_pos (by positivity) _
+  have hpow_pos : 0 < φ⁻¹ ^ n := pow_pos (inv_pos.mpr φ_pos) _
   rw [div_eq_iff (ne_of_gt hpow_pos)]
   have h : φ⁻¹ ^ n * φ ^ n = 1 := by
     rw [← mul_pow]; simp [inv_mul_cancel₀ φ_ne_zero]
-  have h2n : φ ^ (2*n) = φ ^ n * φ ^ n := by ring_nf; rw [← pow_add]
+  have h2n : φ ^ (2*n) = φ ^ n * φ ^ n := by rw [two_mul, pow_add]
   rw [h2n]
   nlinarith [h]
 
