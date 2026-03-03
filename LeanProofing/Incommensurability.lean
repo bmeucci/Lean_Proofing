@@ -18,6 +18,7 @@
 
 import LeanProofing.FiniteGroups
 import Mathlib.Data.Nat.Basic
+import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.Tactic
 
 /-! ## Pentagonal-Tetrahedral Incommensurability (Lemma 12.1)
@@ -36,13 +37,28 @@ def tetrahedralElementOrders : Finset ℕ := {1, 2, 3}
 def icosahedralElementOrders : Finset ℕ := {1, 2, 3, 5}
 
 /-- **Lemma 12.1**: The tetrahedral group has no element of order 5.
-    Pentagonal symmetry (five-fold rotation, 72°) is absent from T. -/
+    Pentagonal symmetry (five-fold rotation, 72°) is absent from T.
+    (Stated here via the element order set; see `no_order_5_in_A4` below for
+    the genuine group-theoretic proof via Lagrange's theorem.) -/
 theorem no_order_5_in_tetrahedral : 5 ∉ tetrahedralElementOrders := by
   simp [tetrahedralElementOrders]
 
 /-- The icosahedral group DOES have elements of order 5. -/
 theorem order_5_in_icosahedral : 5 ∈ icosahedralElementOrders := by
   simp [icosahedralElementOrders]
+
+/-- **Lemma 12.1 (group-theoretic proof)**: No element of A4 (≅ tetrahedral rotation group T)
+    has order 5.
+
+    Proof: By Lagrange's theorem (`orderOf_dvd_card`), the order of any element g of A4
+    divides |A4| = 12. Since 5 ∤ 12, no element can have order 5.
+
+    This is genuine group theory, not a set membership check. -/
+theorem no_order_5_in_A4 : ∀ g : alternatingGroup (Fin 4), orderOf g ≠ 5 := by
+  intro g h5
+  have hdvd : orderOf g ∣ Fintype.card (alternatingGroup (Fin 4)) := orderOf_dvd_card
+  rw [A4_card, h5] at hdvd
+  omega
 
 /-- Five-fold symmetry is present in I but absent from T. -/
 theorem pentagonal_tetrahedral_incompatibility :

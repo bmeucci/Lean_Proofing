@@ -8,6 +8,33 @@
   the polyhedral loop is a closed forward loop from tetrahedron back to tetrahedron,
   with algebraic closure governed by the Lucas identity L₈ = 47 (and general L_{8ℓ}),
   and geometric closure via the harmonic-guided extraction cascade.
+
+  ╔══════════════════════════════════════════════════════════════════════════════╗
+  ║  SCOPE OF THIS FORMALISATION                                                ║
+  ║                                                                             ║
+  ║  Machine-verified in this Lean development:                                 ║
+  ║  • Golden-ratio algebra: φ² = φ+1, φ⁸ + φ⁻⁸ = 47, and all power identities ║
+  ║  • Lucas number theory: φⁿ + ψⁿ = L(n) by induction; general closure       ║
+  ║    φ^{8ℓ} + φ^{-8ℓ} = L(8ℓ) for all ℓ; integer quantisation at every      ║
+  ║    harmonic degree                                                           ║
+  ║  • Combinatorial consistency: every polyhedron definition carries a         ║
+  ║    machine-checked proof of Euler's formula V + F = E + 2                   ║
+  ║  • Group-index computation from genuine Mathlib groups: |A5|/|A4| = 5,      ║
+  ║    proved from Fintype.card of alternatingGroup (Fin 4) and (Fin 5),        ║
+  ║    using card_alternatingGroup (n!/2)                                        ║
+  ║  • Incommensurability via Lagrange's theorem: no element of A4 has order 5  ║
+  ║    because 5 ∤ |A4| = 12 (proved from orderOf_dvd_card)                     ║
+  ║                                                                             ║
+  ║  Asserted as classical scaffolding (cited results, not formalised here):    ║
+  ║  • Geometric realisations: existence of the polyhedra as solids in ℝ³ with  ║
+  ║    the stated combinatorial data (classical, Coxeter/Wenninger)              ║
+  ║  • Continuity of the RHC → DH deformation (requires parametric geometry)    ║
+  ║  • Critical-point structure of Poole's degree-6 icosahedral invariant on S² ║
+  ║  • Klein's full classification of finite rotation groups in SO(3)            ║
+  ║    (encoded as an inductive type; full proof requires Sylow theory)          ║
+  ║                                                                             ║
+  ║  Everything the paper *proves* (as opposed to cites) is machine-verified.   ║
+  ╚══════════════════════════════════════════════════════════════════════════════╝
 -/
 
 import LeanProofing.GoldenRatio
