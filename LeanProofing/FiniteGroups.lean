@@ -2,13 +2,17 @@
   LeanProofing/FiniteGroups.lean
 
   Group-theoretic foundations for the polyhedral journey.
-  Corresponds to Section 4 of the paper.
+  Corresponds to Section 4 (The Fundamental 3D Boundary) of the paper (v11).
 
   Key results:
-  - Classification of finite rotation groups in 3D (Klein's theorem, Theorem 4.1)
-  - The orbit-stabilizer theorem applied to polyhedral faces
-  - The 60-face saturation result (Proposition 4.5)
-  - Structure of the icosahedral rotation group
+  - Klein's theorem (1884): the finite rotation groups in SO(3) are exactly
+    the cyclic C_n, dihedral D_n, tetrahedral T (order 12), octahedral O (order 24),
+    icosahedral I (order 60). Encoded as an inductive type.
+  - Corollary 4.1: I is maximal (order 60) among polyhedral rotation groups.
+  - Orbit-stabiliser theorem applied to icosahedral face actions
+  - Proposition 4.1: full icosahedral face symmetry ⟹ exactly 60 faces
+  - Structure of I: 1 + 24 + 20 + 15 = 60 elements by conjugacy class
+  - Subgroup relations: T < I with |I|/|T| = 5 (key to coset activation in Phase II)
 -/
 
 import Mathlib.GroupTheory.GroupAction.Basic

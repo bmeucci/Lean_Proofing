@@ -2,13 +2,18 @@
   LeanProofing/Incommensurability.lean
 
   Symmetry incommensurability and non-periodic closure.
-  Corresponds to Section 12 of the paper.
+  Corresponds to Section 6.5 (Symmetry Incommensurability and Quasicrystalline
+  Closure) of the paper (v11).
 
   Key results:
-  - The tetrahedral group has no element of order 5 (Lemma 12.1)
-  - The returning tetrahedron cannot be oriented identically (Corollary 12.2)
-  - The five-fold ambiguity in tetrahedral extraction
-  - Quasiperiodic closure definition and verification
+  - Lemma 6.1 (Pentagonal-Tetrahedral Incommensurability): T has elements of
+    orders 1, 2, 3 only — no element of order 5.
+  - Theorem 6.12 (Topological Closure Without Orientational Periodicity):
+    The loop returns to tetrahedral form but not in general to the initial
+    orientation. The cycle achieves topological closure but not strict periodicity.
+  - The 5-fold ambiguity in tetrahedral extraction (which of the 5 inscribed
+    tetrahedra to select) reflects the fundamental pentagonal-tetrahedral gap.
+  - Definition 6.1 (Quasiperiodic Closure): 3 conditions satisfied by our loop.
 -/
 
 import LeanProofing.FiniteGroups

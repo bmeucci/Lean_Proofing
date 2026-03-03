@@ -2,14 +2,16 @@
   LeanProofing/Synthesis.lean
 
   The Complete Forward Loop: synthesis of all four phases.
-  Corresponds to Section 13 of the paper.
+  Corresponds to Section 9 (Synthesis: The Complete Forward Loop) of the paper (v11).
 
-  This file ties together all the components to state and prove
-  the main theorem: the polyhedral journey is a closed forward loop
-  from tetrahedron back to tetrahedron.
+  This file ties together all components to state and prove the main theorem:
+  the polyhedral loop is a closed forward loop from tetrahedron back to tetrahedron,
+  with algebraic closure governed by the Lucas identity L₈ = 47 (and general L_{8ℓ}),
+  and geometric closure via the harmonic-guided extraction cascade.
 -/
 
 import LeanProofing.GoldenRatio
+import LeanProofing.LucasNumbers
 import LeanProofing.FiniteGroups
 import LeanProofing.Polyhedra
 import LeanProofing.PlatonicSpine
@@ -18,29 +20,35 @@ import LeanProofing.Stellation
 import LeanProofing.ForwardReturn
 import LeanProofing.Incommensurability
 
-/-! ## The Complete Journey (Section 13.1)
+/-! ## The Complete Journey (Section 9)
 
-  Phase I (Symmetry Expansion):
+  Phase I  (Section 6.1 — Platonic Spine):
     T →(rect)→ O →(dual)→ C →(rect)→ CO →(dual)→ RD
 
-  Phase II (Icosahedral Transition via Coset Completion):
-    T →(I-orbit)→ 5T →(hull)→ D →(rect)→ ID →(dual)→ RT
+  Phase II (Section 6.2 — Icosahedral Transition via Coset Activation):
+    T_emb →(I-orbit)→ 5T →(hull)→ D →(rect)→ ID →(dual)→ RT
 
-  Phase III (Golden Scaling to Maximum):
-    RT →(stell⁴)→ RHC
+  Phase III (Section 6.3 — Golden Scaling to Maximum):
+    RT →(stell⁴)→ RHC     (c_ℓ → φ^{8ℓ} c_ℓ)
 
-  Phase IV (Harmonic Relaxation and Return):
+  Phase IV (Section 6.4 — Forward Return):
     RHC →(deform)→ DH →(extract)→ ID →(extract)→ T
 -/
 
-/-- A forward polyhedral operation is one of the five permitted operations.
-    None of these is the inverse of another. -/
+/-- A forward polyhedral operation is one of the six permitted operations.
+    None is the inverse of another.
+
+    Note (v11): "cosetCompletion" is named "coset activation" in the paper —
+    the tetrahedral subgroup is carried through Phase I and *activated* by acting
+    with the larger icosahedral group. It is listed here as a distinct operation
+    to reflect the paper's explicit treatment of it as a separate forward step. -/
 inductive ForwardOperation where
-  | rectification : ForwardOperation
-  | dualization : ForwardOperation
-  | stellation : ForwardOperation
+  | rectification     : ForwardOperation
+  | dualization       : ForwardOperation
+  | cosetCompletion   : ForwardOperation  -- coset activation: T_emb →(I-orbit)→ 5T→hull→D
+  | stellation        : ForwardOperation
   | continuousDeformation : ForwardOperation
-  | subsetExtraction : ForwardOperation
+  | subsetExtraction  : ForwardOperation
   deriving DecidableEq, Repr
 
 /-- A step in the polyhedral journey records the operation and its endpoints. -/
@@ -49,7 +57,7 @@ structure JourneyStep where
   source : Polyhedron
   target : Polyhedron
 
-/-! ## The 9-Step Journey -/
+/-! ## The 11-Step Journey (Section 9.2 summary table) -/
 
 /-- Step 1: Tetrahedron → Octahedron (rectification) -/
 def step1 : JourneyStep :=
@@ -67,58 +75,61 @@ def step3 : JourneyStep :=
 def step4 : JourneyStep :=
   { operation := .dualization, source := cuboctahedron, target := rhombicDodecahedron }
 
-/-- Step 4b: Coset completion: Tetrahedron →(I-orbit + hull)→ Dodecahedron -/
-def step4b : JourneyStep :=
-  { operation := .subsetExtraction,  -- orbit + hull is a forward construction
-    source := tetrahedron, target := dodecahedron }
-
-/-- Step 5: Dodecahedron → Icosidodecahedron (rectification) -/
+/-- Step 5 (Phase II bridge): Embedded tetrahedron →(I-orbit + hull)→ Dodecahedron.
+    This is the coset activation step: the icosahedral group acts on the embedded T,
+    producing 5 copies whose union of vertices forms the dodecahedron.
+    |I|/|T| = 60/12 = 5 by orbit-stabiliser (Theorem 6.2 of the paper). -/
 def step5 : JourneyStep :=
+  { operation := .cosetCompletion, source := tetrahedron, target := dodecahedron }
+
+/-- Step 6: Dodecahedron → Icosidodecahedron (rectification) -/
+def step6 : JourneyStep :=
   { operation := .rectification, source := dodecahedron, target := icosidodecahedron }
 
-/-- Step 6: Icosidodecahedron → Rhombic Triacontahedron (dualization) -/
-def step6 : JourneyStep :=
+/-- Step 7: Icosidodecahedron → Rhombic Triacontahedron (dualization) -/
+def step7 : JourneyStep :=
   { operation := .dualization, source := icosidodecahedron, target := rhombicTriacontahedron }
 
-/-- Step 6b: Rhombic Triacontahedron → Rhombic Hexecontahedron (4× stellation) -/
-def step6b : JourneyStep :=
+/-- Step 8: RT → RHC (four successive stellations, treated as one step here) -/
+def step8 : JourneyStep :=
   { operation := .stellation, source := rhombicTriacontahedron,
     target := rhombicHexecontahedron }
 
-/-- Step 7: RHC → Deltoidal Hexecontahedron (continuous deformation) -/
-def step7 : JourneyStep :=
+/-- Step 9: RHC → Deltoidal Hexecontahedron (continuous deformation) -/
+def step9 : JourneyStep :=
   { operation := .continuousDeformation,
     source := rhombicHexecontahedron, target := deltoidalHexecontahedron }
 
-/-- Step 8: DH → Icosidodecahedron (harmonic-guided extraction) -/
-def step8 : JourneyStep :=
+/-- Step 10: DH → Icosidodecahedron (harmonic-guided extraction, Theorem 6.10) -/
+def step10 : JourneyStep :=
   { operation := .subsetExtraction,
     source := deltoidalHexecontahedron, target := icosidodecahedron }
 
-/-- Step 9: Icosidodecahedron → Tetrahedron (symmetry reduction) -/
-def step9 : JourneyStep :=
+/-- Step 11: Icosidodecahedron → Tetrahedron (kernel extraction, Theorem 6.11) -/
+def step11 : JourneyStep :=
   { operation := .subsetExtraction, source := icosidodecahedron, target := tetrahedron }
 
 /-- The complete journey as a list of steps. -/
 def completeJourney : List JourneyStep :=
-  [step1, step2, step3, step4, step4b, step5, step6, step6b, step7, step8, step9]
+  [step1, step2, step3, step4, step5, step6, step7, step8, step9, step10, step11]
 
-/-! ## Main Theorems -/
+/-! ## Main Theorems (Section 9) -/
 
-/-- **Theorem 13.1 (part 1)**: The journey starts at the tetrahedron. -/
+/-- The journey starts at the tetrahedron. -/
 theorem journey_starts_at_tetrahedron :
     (completeJourney.head?).map (·.source) = some tetrahedron := rfl
 
-/-- **Theorem 13.1 (part 2)**: The journey ends at the tetrahedron. -/
+/-- The journey ends at the tetrahedron. -/
 theorem journey_ends_at_tetrahedron :
     (completeJourney.getLast?).map (·.target) = some tetrahedron := by
-  simp [completeJourney, step9, tetrahedron]
+  simp [completeJourney, step11, tetrahedron]
 
-/-- **Theorem 13.1 (part 3)**: Every operation in the journey is forward. -/
+/-- Every operation in the journey is a forward operation. -/
 theorem journey_all_forward :
     ∀ s ∈ completeJourney, s.operation ∈ [
       ForwardOperation.rectification,
       ForwardOperation.dualization,
+      ForwardOperation.cosetCompletion,
       ForwardOperation.stellation,
       ForwardOperation.continuousDeformation,
       ForwardOperation.subsetExtraction
@@ -126,27 +137,28 @@ theorem journey_all_forward :
   intro s hs
   simp only [completeJourney, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals simp [step1, step2, step3, step4, step4b, step5, step6, step6b,
-                   step7, step8, step9]
+  all_goals simp [step1, step2, step3, step4, step5, step6, step7,
+                   step8, step9, step10, step11]
 
-/-- **The Forward Closure Theorem**: The polyhedral journey forms a closed loop
+/-- **The Forward Closure Theorem**: The polyhedral journey is a closed loop
     from tetrahedron to tetrahedron using only forward geometric operations. -/
 theorem forward_closure :
     step1.source = tetrahedron ∧
-    step9.target = tetrahedron ∧
-    step1.source = step9.target := by
+    step11.target = tetrahedron ∧
+    step1.source = step11.target := by
   refine ⟨rfl, rfl, ?_⟩
-  simp [step1, step9, tetrahedron]
+  simp [step1, step11, tetrahedron]
 
-/-! ## Geometric Necessity (Section 13.2)
+/-! ## The Cascade of Constraints (Section 9.3)
 
-  Each step is forced by one of:
-  1. Symmetry expansion (T → O → C → CO → RD)
-  2. Golden-ratio activation (D → ID → RT)
-  3. Saturation of Klein's bound (RT → RHC)
-  4. Deformation to equilibrium (RHC → DH)
-  5. Harmonic-guided extraction (DH → ID)
-  6. Return to minimal kernel (ID → T)
+  The key numerical chain that makes these values inevitable:
+  1. Klein: 3D rotation groups max out at order 60
+  2. 60 rotations ⟹ 60 faces (orbit-stabiliser, trivial stabiliser)
+  3. Five-fold symmetry ⟹ golden ratio (cos(π/5) = φ/2)
+  4. RT has 30 golden-rhombic faces; stellation scales by φ²
+  5. 4 × φ² = φ⁸ reaches 60 faces (saturation)
+  6. φ⁸ + φ⁻⁸ = 47 = L₈ (algebraic closure)
+  7. Quasiperiodic return (5 ∉ T, so no orientational closure)
 -/
 
 /-- The face count journey: starting at 4, reaching maximum 60, returning to 4. -/
@@ -164,7 +176,7 @@ theorem face_count_values : faceCountJourney =
         rhombicTriacontahedron, rhombicHexecontahedron,
         deltoidalHexecontahedron]
 
-/-- The maximum face count in the journey is 60, matching the icosahedral bound. -/
+/-- The maximum face count in the journey is 60, matching Klein's icosahedral bound. -/
 theorem max_face_count :
     60 ∈ faceCountJourney ∧ ∀ n ∈ faceCountJourney, n ≤ 60 := by
   constructor
@@ -176,41 +188,10 @@ theorem max_face_count :
           deltoidalHexecontahedron] at hn
     omega
 
-/-! ## The Cascade of Constraints (Section 13.3)
+/-! ## The Unification (Section 9.4 / Remark 5.4)
 
-  The key numerical relationships that govern the journey.
--/
-
-/-- The cascade of constraints summarized as numerical facts. -/
-structure CascadeOfConstraints where
-  /-- Klein: icosahedral group is maximal at order 60 -/
-  klein_bound : ℕ := 60
-  /-- 60 faces saturate the icosahedral group -/
-  face_saturation : ℕ := 60
-  /-- Golden ratio scaling per stellation -/
-  stellation_exponent : ℕ := 2  -- φ²
-  /-- Number of stellations to reach saturation -/
-  stellation_count : ℕ := 4
-  /-- Total scaling exponent: 2 × 4 = 8 -/
-  total_exponent : ℕ := 8
-  /-- Belt identity: φ⁸ + φ⁻⁸ = 47 -/
-  belt_integer : ℕ := 47
-  /-- Coset index: |I|/|T| = 5 -/
-  coset_index : ℕ := 5
-
-/-- Verification that the cascade values are consistent:
-    2 × 4 = 8, 60 = 60, 5 × 12 = 60. -/
-theorem cascade_consistency :
-    2 * 4 = (8 : ℕ) ∧ (60 : ℕ) = 60 ∧ 5 * 12 = (60 : ℕ) :=
-  ⟨by norm_num, rfl, by norm_num⟩
-
-/-! ## The Fundamental Unification (Theorem 13.2)
-
-  The following are equivalent expressions of the dimensional structure of space:
-  1. Division algebras exist only up to dimension 8
-  2. Finite rotation groups in 3D exist only up to order 60
-  3. Golden stellation saturates at φ⁸
-  4. The belt identity φ⁸ + φ⁻⁸ = 47
+  The values 8, 47, 60, and φ are not adjustable parameters — they emerge
+  from the chain of constraints anchored in Klein's theorem and Hurwitz's theorem.
 -/
 
 /-- The Hurwitz bound: normed division algebras exist only in dimensions 1, 2, 4, 8. -/
@@ -223,49 +204,59 @@ theorem max_division_algebra_dim :
   · simp [hurwitzDimensions]
   · intro n hn; simp [hurwitzDimensions] at hn; omega
 
-/-- The unified boundary: the exponent 8 connects to:
-    - 8D as the maximal division algebra dimension
-    - φ⁸ as the stellation scaling at 4 steps
-    - φ⁸ + φ⁻⁸ = 47 as the belt identity
-    The stellation count (4) times the scaling exponent (2) = 8. -/
+/-- The stellation count (4) times the scaling exponent per stellation (2) = 8.
+    This is the chain: φ² per stellation × 4 stellations = φ⁸. -/
 theorem unified_boundary_exponent : 2 * 4 = (8 : ℕ) := by norm_num
 
-/-! ## Summary: Why These Values Cannot Be Otherwise (Section 13.5)
+/-- **Remark 5.4 (Arithmetic signature of saturation)**:
+    L(8) + F(7) = 47 + 13 = 60 = |I|.
+    Connecting Lucas numbers, Fibonacci numbers, and the icosahedral group order. -/
+theorem L8_plus_F7_eq_sixty :
+    lucasNumber 8 + fibNumber 7 = (60 : ℤ) :=
+  lucas8_plus_fib7_eq_ico_order
 
-  3 dimensions ⟹ icosahedral group maximal (60)
-  60 rotations ⟹ maximum 60 faces
-  5-fold symmetry ⟹ golden ratio
-  φ² stellation × 4 steps ⟹ φ⁸ scaling
-  φ⁸ + φ⁻⁸ = 47 ⟹ belt structure
-  5 ∤ |T| ⟹ non-periodic closure
--/
+/-! ## The Main Theorem -/
 
-/-- The complete theorem: the polyhedral journey is a quasiperiodically closed
+noncomputable section
+
+/-- **The Main Theorem (Section 9)**: The polyhedral loop is a quasiperiodically closed
     forward loop through the polyhedral landscape, uniquely determined by the
-    constraints of 3D Euclidean geometry. -/
-theorem the_golden_ratio_polyhedral_journey :
+    constraints of 3D Euclidean geometry.
+
+    The theorem packages:
+    1. Topological closure: starts and ends at tetrahedron
+    2. All operations are forward
+    3. 60-face saturation is reached at the apex
+    4. Algebraic closure: φ⁸ + φ⁻⁸ = 47 = L(8) (fundamental case of general closure)
+    5. Group-theoretic bridge: |I|/|T| = 5 (coset activation)
+    6. Quasiperiodic non-closure: 5 ∉ tetrahedral element orders -/
+theorem the_golden_ratio_polyhedral_loop :
     -- Topological closure: starts and ends at tetrahedron
     step1.source = tetrahedron ∧
-    step9.target = tetrahedron ∧
+    step11.target = tetrahedron ∧
     -- All operations are forward
     (∀ s ∈ completeJourney, s.operation ∈ [
       ForwardOperation.rectification,
       ForwardOperation.dualization,
+      ForwardOperation.cosetCompletion,
       ForwardOperation.stellation,
       ForwardOperation.continuousDeformation,
       ForwardOperation.subsetExtraction]) ∧
-    -- 60-face saturation is reached
+    -- Geometric saturation: 60-face apex reached
     rhombicHexecontahedron.F = 60 ∧
-    -- The belt identity holds
+    -- Algebraic closure: φ⁸ + φ⁻⁸ = 47 (the belt identity, ℓ=1 case)
     φ ^ 8 + φ⁻¹ ^ 8 = 47 ∧
-    -- The coset structure gives exactly 5 tetrahedra
+    -- Group-theoretic bridge: 5 tetrahedra from orbit-stabiliser
     FiniteRotationGroup3D.icosahedral.order /
       FiniteRotationGroup3D.tetrahedral.order = 5 ∧
-    -- 5-fold symmetry is absent from the tetrahedral group
+    -- Quasiperiodic: five-fold symmetry absent from tetrahedral group
     5 ∉ tetrahedralElementOrders := by
   refine ⟨rfl, rfl, journey_all_forward, rfl, belt_identity,
          five_tetrahedral_subgroups, no_order_5_in_tetrahedral⟩
 
+end
+
 -- Verify no sorry or custom axioms in the main theorem.
--- Expected output: only 'propext', 'Quot.sound', 'Classical.choice'.
-#print axioms the_golden_ratio_polyhedral_journey
+-- Expected output: 'propext', 'Quot.sound', 'Classical.choice', and
+-- 'cos_pi_div_five' (the classical cos(π/5)=φ/2 bridge, stated as axiom).
+#print axioms the_golden_ratio_polyhedral_loop

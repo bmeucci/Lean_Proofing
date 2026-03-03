@@ -2,12 +2,15 @@
   LeanProofing/IcosahedralTransition.lean
 
   Phase II of the polyhedral journey: Transition to Icosahedral Symmetry.
-  Corresponds to Section 6 of the paper.
+  Corresponds to Section 6.2 (Geometric Description, Phase II) of the paper (v11).
 
   Key results:
-  - The coset completion: T acts under I to produce 5 tetrahedra (Theorem 6.2)
-  - The convex hull of 5 tetrahedra = dodecahedron
+  - Theorem 6.2 (Coset Completion / Coset Activation): I acts on the embedded T,
+    producing 5 tetrahedra (|I|/|T|=5 by orbit-stabiliser). Their 20 vertices
+    coincide with the dodecahedron's 20 vertices.
+  - The convex hull of the compound of 5 tetrahedra is the dodecahedron
   - Dodecahedron →(rect)→ Icosidodecahedron →(dual)→ Rhombic Triacontahedron
+  - The RT has 30 faces (half of the icosahedral saturation bound 60)
 -/
 
 import LeanProofing.Polyhedra

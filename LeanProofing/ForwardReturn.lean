@@ -2,14 +2,19 @@
   LeanProofing/ForwardReturn.lean
 
   Phase IV of the polyhedral journey: The Forward Return via Harmonic Relaxation.
-  Corresponds to Section 11 of the paper.
+  Corresponds to Section 6.4 (Geometric Description, Phase IV) of the paper (v11).
 
   Key results:
-  - RHC → DH via continuous deformation (Theorem 11.5)
-  - DH vertex decomposition: 12 + 20 + 30 = 62 (Theorem 11.10)
-  - DH → ID via harmonic-guided extraction (Theorem 11.12)
-  - ID → Tetrahedron via symmetry reduction (Theorem 11.18)
-  - Icosidodecahedron as saddle points of Poole's invariant (Theorem 11.8)
+  - Theorem 6.8 (Two Distinguished Members): RHC (non-convex, ρ=φ²) and
+    DH (convex, ρ≈1.539) are the geometrically distinguished members of the
+    hexecontahedral family; connected by continuous deformation.
+  - RHC → DH: deformation from maximum-extension boundary to convex equilibrium
+  - Theorem 6.9 (DH Vertex Decomposition): 12+20+30=62 vertices in three orbits
+    (icosahedron, dodecahedron, icosidodecahedron positions)
+  - Theorem 6.10 (Harmonic-Guided Extraction): DH → ID via selection of the
+    intermediate critical orbit of Poole's degree-6 invariant (Appendix A)
+  - Theorem 6.11 (Compound of 5T in ID): ID → T via kernel extraction
+  - The ID vertices are saddle points of P (Appendix A, Poincaré-Hopf: 12+20-30=2)
 -/
 
 import LeanProofing.Polyhedra

@@ -1,0 +1,91 @@
+% The Golden-Ratio Polyhedral Loop: A Complete Forward Cycle with Algebraic and Geometric Closure
+% Author: Shiva Meucci
+% Version: v11 (February 2026)
+%
+% This is the source paper for the Lean 4 formalization in LeanProofing/.
+% The LaTeX source is stored here for reference alongside the formal proofs.
+%
+% STRUCTURE (v11):
+%   Section 1:  Reader's Guide (three levels of understanding)
+%   Section 2:  Introduction (historical context, operations, journey overview,
+%               main theorem preview, key discoveries)
+%   Section 3:  Number-Theoretic Foundation
+%               - Golden ratio phi = (1+sqrt5)/2, minimal polynomial x^2-x-1=0
+%               - Lucas numbers L_n = phi^n + psi^n, recurrence, integrality
+%               - Theorem 3.2: L_8 = phi^8 + phi^{-8} = 47 (THE critical identity)
+%               - Proposition 3.1 (self-similar phase): {phi^n}/phi^{-n} = phi^n - 1
+%               - cos(pi/5) = phi/2 (continuous-discrete bridge)
+%   Section 4:  The Fundamental 3D Boundary
+%               - Klein's theorem (1884): classification of finite rotation groups in SO(3)
+%               - Corollary: I (icosahedral, order 60) is the largest
+%               - Orbit-stabiliser theorem
+%               - 60-face saturation proposition
+%               - Why icosahedral symmetry is necessary for phi-geometry
+%   Section 5:  The Algebraic Description of Closure
+%               - Proposition 5.1: Each RT main-sequence stellation scales circumradius by phi^2
+%               - Corollary 5.1: c_ell -> phi^{2*ell} * c_ell (degree-dependent amplification)
+%               - Theorem 5.1: 4th stellation -> exactly 60 faces (geometric saturation)
+%               - Remark 5.2: Why the main sequence stops at 4 (phi^8 < 60 < phi^10)
+%               - Theorem 5.2: Algebraic closure -- phi^{8*ell} + phi^{-8*ell} = L_{8*ell} in Z
+%               - Remark 5.4: Arithmetic signature -- 60 = L_8 + F_7 = 47 + 13
+%               - Section 5.5: Octonionic mirror (Hurwitz 1898, E_8 lattice, 8-60 correspondence)
+%   Section 6:  The Geometric Description of Closure
+%               - Phase I  (Section 6.1): Platonic Spine
+%                   T --(rect)--> O --(dual)--> C --(rect)--> CO --(dual)--> RD
+%               - Phase II (Section 6.2): Transition to Icosahedral Symmetry
+%                   T_emb --(I-orbit)--> 5T --(hull)--> D --(rect)--> ID --(dual)--> RT
+%                   Key: Theorem 6.2 (Coset Completion -- T_emb -> 5T -> D)
+%                   Key: Theorem 6.5 (Golden Rhombus -- RT faces have diagonal ratio phi:1)
+%               - Phase III (Section 6.3): Golden Scaling to Maximum
+%                   RT --(stell^4)--> RHC  (c_ell -> phi^{8*ell} * c_ell)
+%               - Phase IV (Section 6.4): Forward Return
+%                   RHC --(deform)--> DH --(extract)--> ID --(extract)--> T
+%                   Key: Theorem 6.8 (Two Distinguished Members of hexecontahedral family)
+%                   Key: Theorem 6.9 (DH Vertex Decomposition: 12+20+30=62)
+%                   Key: Theorem 6.10 (Harmonic-Guided Extraction: DH->ID)
+%                   Key: Theorem 6.11 (Compound of 5T in ID -> T extraction)
+%               - Section 6.5: Symmetry Incommensurability and Quasicrystalline Closure
+%                   Lemma 6.1: Pentagonal-tetrahedral incommensurability (5 not in T)
+%                   Theorem 6.12: Topological closure without orientational periodicity
+%   Section 7:  Spherical Harmonics and Poole's Invariants
+%               - Poole (1932): invariant harmonics at degrees {0,6,10,12,15,...}
+%               - P = Y_6^(I) (degree-6 generator), Q = Y_{10}^(I) (degree-10)
+%               - LCM(6,10)=30 (faces of RT), 2*LCM(6,10)=60 (faces of RHC)
+%               - Harmonic amplification under 4 stellations
+%   Section 8:  The Belt: Geometric Closure and Quasicrystalline Structure
+%               - Proposition 8.1: Belt width = 2*pi*phi^{-8} (in Wenninger coordinate model)
+%               - Two interpretations: algebraic (fractional offset of phi^8) vs
+%                 geometric (angular incommensurability)
+%               - Connection to quasicrystalline tilings
+%   Section 9:  Synthesis: The Complete Forward Loop
+%               - Proof of Main Theorem (algebraic + geometric + convergence)
+%               - Summary table of journey steps
+%               - Theorem 9.1 (Distinguished Forward Loop): geometric necessity of each step
+%               - Cascade of constraints (10 steps)
+%               - Why these values cannot be otherwise
+%   Section 10: Conclusion
+%   Section 11: Further Directions (harmonic analysis and geometric topology)
+%   Appendix A: Poole Invariant -- Symmetry-Based Critical-Point Analysis
+%               - Explicit saddle-point verification via C_2 symmetry argument
+%               - Hessian analysis: mixed signature at ID vertices
+%               - Poincare-Hopf check: 12(+1) + 20(+1) + 30(-1) = 2 = chi(S^2)
+%
+% KEY CHANGES FROM v10b:
+%   1. General Lucas closure theorem: phi^{8*ell}+phi^{-8*ell}=L_{8*ell} for all ell
+%      (v10b only had the specific case ell=1, i.e., L_8=47)
+%   2. Self-similar phase structure proposition (Section 3.4)
+%   3. Degree-dependent harmonic amplification formalized as Corollary 5.1
+%   4. Arithmetic remark: 60 = 47 + 13 = L_8 + F_7 (Section 5.4)
+%   5. Cleaner separation of "algebraic" vs "geometric" descriptions throughout
+%   6. Coset completion now called "coset activation" and treated as distinct operation
+%   7. Poole invariant appendix is now more rigorous (Poincare-Hopf verification explicit)
+%   8. Section numbers reorganised: Synthesis is now Section 9 (was implied Section 13 in v10b)
+%   9. Octonionic section now clearly labelled as structural remark, not new theorem
+%  10. Forward return steps now numbered Steps 7-9 (was 7-9 but unnumbered in some versions)
+%
+% REFERENCES:
+%   Coxeter 1973, Wenninger 1971, Coxeter-Longuet-Higgins-Miller 1954,
+%   Klein 1884, Poole 1932, Conway-Burgiel-Goodman-Strauss 2008,
+%   Hurwitz 1898, Baez 2002, Elser-Sloane 1987, Koca-Koca-Koc 2011,
+%   Kepler 1619, Shechtman et al. 1984, de Bruijn 1981,
+%   Senechal 1995, Baake-Grimm 2013, Humphreys 1990

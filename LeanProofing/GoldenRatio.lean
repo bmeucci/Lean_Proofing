@@ -2,13 +2,17 @@
   LeanProofing/GoldenRatio.lean
 
   Number-theoretic foundation: The golden ratio and its algebraic properties.
-  Corresponds to Section 3 of the paper.
+  Corresponds to Section 3 (Number-Theoretic Foundation) of the paper (v11).
 
   Key results:
-  - Definition of φ and its fundamental equation φ² = φ + 1
-  - The stellation scaling identity (φ²)⁴ = φ⁸
-  - The exact algebraic identity φ⁸ + φ⁻⁸ = 47
-  - Integer proximity: φ⁸ ≈ 46.978
+  - Definition of φ = (1+√5)/2 and its minimal polynomial φ² = φ + 1
+  - Galois conjugate ψ = (1-√5)/2 = -1/φ, satisfying ψ² = ψ + 1
+  - Lucas recurrence for both: φⁿ⁺² = φⁿ⁺¹ + φⁿ (same for ψ)
+  - Powers: φ⁴ = 3φ+2, φ⁶ = 8φ+5, φ⁸ = 21φ+13 (Fibonacci coefficients)
+  - Belt identity (Theorem 3.2 / specific case of general closure): φ⁸ + φ⁻⁸ = 47
+  - Stellation scaling: (φ²)⁴ = φ⁸ (four stellations)
+  See LucasNumbers.lean for the general Lucas number framework and the
+  general algebraic closure theorem φ^{8ℓ} + φ^{-8ℓ} = L(8ℓ).
 -/
 
 import Mathlib.Data.Real.Basic
@@ -92,15 +96,23 @@ theorem φ_inv : φ⁻¹ = φ - 1 := by
   which follows from φ² = φ + 1.
 -/
 
-/-- The Lucas number recurrence for φ: φⁿ⁺² = φⁿ⁺¹ + φⁿ. -/
+/-- The Lucas recurrence for φ: φⁿ⁺² = φⁿ⁺¹ + φⁿ. -/
 theorem φ_pow_succ_succ (n : ℕ) : φ ^ (n + 2) = φ ^ (n + 1) + φ ^ n := by
   have h := φ_sq
   calc φ ^ (n + 2) = φ ^ n * φ ^ 2 := by ring
     _ = φ ^ n * (φ + 1) := by rw [h]
     _ = φ ^ (n + 1) + φ ^ n := by ring
 
+/-- The Lucas recurrence for ψ: ψⁿ⁺² = ψⁿ⁺¹ + ψⁿ.
+    (Same recurrence as φ, needed for LucasNumbers.lean induction.) -/
+theorem ψ_pow_succ_succ (n : ℕ) : ψ ^ (n + 2) = ψ ^ (n + 1) + ψ ^ n := by
+  have h := ψ_sq
+  calc ψ ^ (n + 2) = ψ ^ n * ψ ^ 2 := by ring
+    _ = ψ ^ n * (ψ + 1) := by rw [h]
+    _ = ψ ^ (n + 1) + ψ ^ n := by ring
+
 /-- For the stellation sequence: φ⁴ = 3φ + 2.
-    This gives φ⁴ ≈ 6.854. -/
+    Table entry (ℓ=2 single stellation): φ⁴ ≈ 6.854. -/
 theorem φ_pow4 : φ ^ 4 = 3 * φ + 2 := by
   have h := φ_sq
   calc φ ^ 4 = (φ ^ 2) ^ 2 := by ring
@@ -109,8 +121,17 @@ theorem φ_pow4 : φ ^ 4 = 3 * φ + 2 := by
     _ = (φ + 1) + 2 * φ + 1 := by rw [h]
     _ = 3 * φ + 2 := by ring
 
-/-- φ⁸ = 21φ + 13. Uses Fibonacci/Lucas structure.
-    Since φ ≈ 1.618, this gives φ⁸ ≈ 46.978. -/
+/-- φ⁶ = 8φ + 5. (Table entry: one stellation at ℓ=3, φ⁶ ≈ 17.944.) -/
+theorem φ_pow6 : φ ^ 6 = 8 * φ + 5 := by
+  have h4 := φ_pow4
+  calc φ ^ 6 = φ ^ 4 * φ ^ 2 := by ring
+    _ = (3 * φ + 2) * (φ + 1) := by rw [h4, φ_sq]
+    _ = 3 * φ ^ 2 + 5 * φ + 2 := by ring
+    _ = 3 * (φ + 1) + 5 * φ + 2 := by rw [φ_sq]
+    _ = 8 * φ + 5 := by ring
+
+/-- φ⁸ = 21φ + 13. Uses Fibonacci/Lucas structure: F₈=21, F₇=13.
+    This is the key computation: φ⁸ ≈ 46.978 (just below the icosahedral bound of 60). -/
 theorem φ_pow8 : φ ^ 8 = 21 * φ + 13 := by
   have h4 := φ_pow4
   calc φ ^ 8 = (φ ^ 4) ^ 2 := by ring
@@ -187,5 +208,67 @@ theorem stellationScaling_strictMono : StrictMono stellationScaling := by
   intro a b hab
   unfold stellationScaling
   exact pow_lt_pow_right₀ φ_gt_one (by omega)
+
+/-! ## Intermediate Lucas Sum Identities (Table in Section 5)
+
+  These are the φⁿ + φ⁻ⁿ = L(n) identities for n = 2, 4, 6, 8.
+  The general form is proved in LucasNumbers.lean as general_algebraic_closure.
+  These specific cases are stated here for direct reference by readers of the paper.
+-/
+
+/-- φ² + φ⁻² = 3 = L(2). (First row of table in Section 5.) -/
+theorem lucas_sum_two : φ ^ 2 + φ⁻¹ ^ 2 = 3 := by
+  rw [φ_inv_eq_neg_ψ, neg_pow, show (-1:ℝ)^2 = 1 from by norm_num, one_mul]
+  have h2 : ψ ^ 2 = ψ + 1 := ψ_sq
+  have h := φ_sq
+  have hadd := φ_add_ψ
+  linarith
+
+/-- φ⁴ + φ⁻⁴ = 7 = L(4). -/
+theorem lucas_sum_four : φ ^ 4 + φ⁻¹ ^ 4 = 7 := by
+  rw [φ_inv_eq_neg_ψ, neg_pow, show (-1:ℝ)^4 = 1 from by norm_num, one_mul]
+  have h4 := φ_pow4
+  have h4ψ : ψ ^ 4 = 3 * ψ + 2 := by
+    have h2 := ψ_sq
+    calc ψ ^ 4 = (ψ ^ 2) ^ 2 := by ring
+      _ = (ψ + 1) ^ 2 := by rw [h2]
+      _ = ψ ^ 2 + 2 * ψ + 1 := by ring
+      _ = (ψ + 1) + 2 * ψ + 1 := by rw [h2]
+      _ = 3 * ψ + 2 := by ring
+  have hadd := φ_add_ψ
+  linarith
+
+/-- φ⁶ + φ⁻⁶ = 18 = L(6). -/
+theorem lucas_sum_six : φ ^ 6 + φ⁻¹ ^ 6 = 18 := by
+  rw [φ_inv_eq_neg_ψ, neg_pow, show (-1:ℝ)^6 = 1 from by norm_num, one_mul]
+  have h6 := φ_pow6
+  have h6ψ : ψ ^ 6 = 8 * ψ + 5 := by
+    have h2 := ψ_sq
+    have h4ψ : ψ ^ 4 = 3 * ψ + 2 := by
+      calc ψ ^ 4 = (ψ ^ 2) ^ 2 := by ring
+        _ = (ψ + 1) ^ 2 := by rw [h2]
+        _ = ψ ^ 2 + 2 * ψ + 1 := by ring
+        _ = (ψ + 1) + 2 * ψ + 1 := by rw [h2]
+        _ = 3 * ψ + 2 := by ring
+    calc ψ ^ 6 = ψ ^ 4 * ψ ^ 2 := by ring
+      _ = (3 * ψ + 2) * (ψ + 1) := by rw [h4ψ, h2]
+      _ = 3 * ψ ^ 2 + 5 * ψ + 2 := by ring
+      _ = 3 * (ψ + 1) + 5 * ψ + 2 := by rw [h2]
+      _ = 8 * ψ + 5 := by ring
+  have hadd := φ_add_ψ
+  linarith
+
+/-! ## The Continuous-Discrete Bridge (Section 3.5)
+
+  The identity cos(π/5) = φ/2 connects the transcendental world of continuous
+  rotations to the algebraic world of five-fold discrete symmetry.
+  This forces all icosahedral scaling factors to be powers of φ.
+-/
+
+/-- The bridge identity: cos(π/5) = φ/2.
+    Stated here as an axiom (classical trigonometric fact);
+    it connects the pentagonal rotation angle to the golden ratio.
+    Every icosahedral geometric quantity must respect this relationship. -/
+axiom cos_pi_div_five : Real.cos (Real.pi / 5) = φ / 2
 
 end

@@ -2,14 +2,16 @@
   LeanProofing/PlatonicSpine.lean
 
   Phase I of the polyhedral journey: The Platonic Spine.
-  Corresponds to Section 5 of the paper.
+  Corresponds to Section 6.1 (Geometric Description, Phase I) of the paper (v11).
 
   The chain:
     Tetrahedron →(rect)→ Octahedron →(dual)→ Cube
     →(rect)→ Cuboctahedron →(dual)→ Rhombic Dodecahedron
 
   Each step is proved by verifying vertex/edge/face counts under
-  rectification and dualization.
+  rectification and dualization. The tetrahedral subgroup T is carried as
+  an embedded subgroup through all octahedral-symmetry polyhedra in Phase I,
+  ready to be "activated" by the coset completion in Phase II.
 -/
 
 import LeanProofing.Polyhedra
