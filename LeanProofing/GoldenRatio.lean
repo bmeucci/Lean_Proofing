@@ -266,9 +266,15 @@ theorem lucas_sum_six : φ ^ 6 + φ⁻¹ ^ 6 = 18 := by
 -/
 
 /-- The bridge identity: cos(π/5) = φ/2.
-    Stated here as an axiom (classical trigonometric fact);
-    it connects the pentagonal rotation angle to the golden ratio.
-    Every icosahedral geometric quantity must respect this relationship. -/
+    Stated here as an axiom (classical trigonometric fact) representing the
+    continuous-discrete bridge of Section 3.5: pentagonal rotation angle meets
+    golden ratio algebra.
+
+    Note: This axiom is declared for documentary completeness but does not appear
+    in the dependency chain of `the_golden_ratio_polyhedral_loop` (see `#print axioms`).
+    The main theorem is purely algebraic; the geometric consequence that icosahedral
+    scaling factors must be powers of φ is a classical result cited in the paper
+    (Section 3.5) but not formalised in this development. -/
 axiom cos_pi_div_five : Real.cos (Real.pi / 5) = φ / 2
 
 end

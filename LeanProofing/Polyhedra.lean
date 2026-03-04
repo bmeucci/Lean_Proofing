@@ -108,25 +108,30 @@ def cuboctahedron : Polyhedron :=
 
 /-- The icosidodecahedron: 30 vertices, 60 edges, 32 faces (20 tri + 12 pent). -/
 def icosidodecahedron : Polyhedron :=
-  { V := 30, E := 60, F := 32, isConvex := true, name := "Icosidodecahedron", euler := by norm_num }
+  { V := 30, E := 60, F := 32, isConvex := true, name := "Icosidodecahedron",
+    euler := by norm_num }
 
 /-- The rhombicosidodecahedron: 60 vertices, 120 edges, 62 faces. -/
 def rhombicosidodecahedron : Polyhedron :=
-  { V := 60, E := 120, F := 62, isConvex := true, name := "Rhombicosidodecahedron", euler := by norm_num }
+  { V := 60, E := 120, F := 62, isConvex := true, name := "Rhombicosidodecahedron",
+    euler := by norm_num }
 
 /-! ## Catalan Solids (duals of Archimedean solids) -/
 
 /-- The rhombic dodecahedron: 14 vertices, 24 edges, 12 rhombic faces. -/
 def rhombicDodecahedron : Polyhedron :=
-  { V := 14, E := 24, F := 12, isConvex := true, name := "Rhombic Dodecahedron", euler := by norm_num }
+  { V := 14, E := 24, F := 12, isConvex := true, name := "Rhombic Dodecahedron",
+    euler := by norm_num }
 
 /-- The rhombic triacontahedron: 32 vertices, 60 edges, 30 golden-rhombic faces. -/
 def rhombicTriacontahedron : Polyhedron :=
-  { V := 32, E := 60, F := 30, isConvex := true, name := "Rhombic Triacontahedron", euler := by norm_num }
+  { V := 32, E := 60, F := 30, isConvex := true, name := "Rhombic Triacontahedron",
+    euler := by norm_num }
 
 /-- The deltoidal hexecontahedron: 62 vertices, 120 edges, 60 kite faces. -/
 def deltoidalHexecontahedron : Polyhedron :=
-  { V := 62, E := 120, F := 60, isConvex := true, name := "Deltoidal Hexecontahedron", euler := by norm_num }
+  { V := 62, E := 120, F := 60, isConvex := true, name := "Deltoidal Hexecontahedron",
+    euler := by norm_num }
 
 /-! ## Non-convex Polyhedra from Stellation -/
 

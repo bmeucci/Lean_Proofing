@@ -33,16 +33,16 @@ theorem lucas_recurrence (n : ℕ) :
     lucasNumber (n+2) = lucasNumber (n+1) + lucasNumber n := rfl
 
 /-- Initial values. -/
-@[simp] theorem lucas_zero  : lucasNumber 0  = 2  := rfl
-@[simp] theorem lucas_one   : lucasNumber 1  = 1  := rfl
+@[simp] theorem lucas_zero : lucasNumber 0 = 2 := rfl
+@[simp] theorem lucas_one : lucasNumber 1 = 1 := rfl
 
 /-- The sequence: 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, ... -/
-@[simp] theorem lucas_two   : lucasNumber 2  = 3  := rfl
-@[simp] theorem lucas_three : lucasNumber 3  = 4  := rfl
-@[simp] theorem lucas_four  : lucasNumber 4  = 7  := rfl
-@[simp] theorem lucas_five  : lucasNumber 5  = 11 := rfl
-@[simp] theorem lucas_six   : lucasNumber 6  = 18 := rfl
-@[simp] theorem lucas_seven : lucasNumber 7  = 29 := rfl
+@[simp] theorem lucas_two : lucasNumber 2 = 3 := rfl
+@[simp] theorem lucas_three : lucasNumber 3 = 4 := rfl
+@[simp] theorem lucas_four : lucasNumber 4 = 7 := rfl
+@[simp] theorem lucas_five : lucasNumber 5 = 11 := rfl
+@[simp] theorem lucas_six : lucasNumber 6 = 18 := rfl
+@[simp] theorem lucas_seven : lucasNumber 7 = 29 := rfl
 
 /-- **Theorem 3.2 (The Critical Identity)**: L(8) = 47.
     This is the fundamental case of the general closure theorem (ℓ=1). -/
@@ -156,7 +156,6 @@ theorem phi_pow_add_psi_pow (n : ℕ) : φ ^ n + ψ ^ n = (lucasNumber n : ℝ) 
     · -- φ¹ + ψ¹ = 1 = L(1)
       simp [lucasNumber]
       have := φ_add_ψ
-      push_cast
       linarith
   | succ k ih =>
     obtain ⟨ihk, ihk1⟩ := ih
@@ -237,7 +236,7 @@ theorem self_similar_phase (n : ℕ) : (1 - φ⁻¹ ^ n) * φ ^ n = φ ^ n - 1 :
 
 /-- The ratio form: the fractional offset equals φⁿ - 1 times the inverse power.
     Concretely at n=8: the ratio {φ⁸}/φ⁻⁸ = φ⁸ - 1 ≈ 45.978. -/
-theorem self_similar_ratio (n : ℕ) (hn : 0 < n) :
+theorem self_similar_ratio (n : ℕ) (_ : 0 < n) :
     (φ ^ n - 1) / φ⁻¹ ^ n = φ ^ (2*n) - φ ^ n := by
   have hpow_pos : 0 < φ⁻¹ ^ n := pow_pos (inv_pos.mpr φ_pos) _
   rw [div_eq_iff (ne_of_gt hpow_pos)]
